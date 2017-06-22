@@ -2,18 +2,18 @@
   "_args": [
     [
       {
-        "raw": "wifiwizard",
+        "raw": "wifiwizard@^0.2.11",
         "scope": null,
         "escapedName": "wifiwizard",
         "name": "wifiwizard",
-        "rawSpec": "",
-        "spec": "latest",
-        "type": "tag"
+        "rawSpec": "^0.2.11",
+        "spec": ">=0.2.11 <0.3.0",
+        "type": "range"
       },
-      "/home/ignacio/Cordova/angular-cordova/cordova/node_modules"
+      "/home/ignacio/Cordova/tera-app/cordova/node_modules"
     ]
   ],
-  "_from": "wifiwizard@latest",
+  "_from": "wifiwizard@>=0.2.11 <0.3.0",
   "_id": "wifiwizard@0.2.11",
   "_inCache": true,
   "_location": "/wifiwizard",
@@ -25,13 +25,13 @@
   "_npmVersion": "2.11.3",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "wifiwizard",
+    "raw": "wifiwizard@^0.2.11",
     "scope": null,
     "escapedName": "wifiwizard",
     "name": "wifiwizard",
-    "rawSpec": "",
-    "spec": "latest",
-    "type": "tag"
+    "rawSpec": "^0.2.11",
+    "spec": ">=0.2.11 <0.3.0",
+    "type": "range"
   },
   "_requiredBy": [
     "#USER",
@@ -40,8 +40,8 @@
   "_resolved": "https://registry.npmjs.org/wifiwizard/-/wifiwizard-0.2.11.tgz",
   "_shasum": "ed2db47bc4ac621c12de1d6ef5948822e964df14",
   "_shrinkwrap": null,
-  "_spec": "wifiwizard",
-  "_where": "/home/ignacio/Cordova/angular-cordova/cordova/node_modules",
+  "_spec": "wifiwizard@^0.2.11",
+  "_where": "/home/ignacio/Cordova/tera-app/cordova/node_modules",
   "author": {
     "name": "Matt Parsons"
   },
