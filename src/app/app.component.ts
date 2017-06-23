@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import * as Hammer from 'hammerjs';
-declare var WifiWizard;
 
 @Component({
   selector: 'app-root',
@@ -21,20 +20,6 @@ export class AppComponent {
   }
 
   ngOnInit(){
-    /*setInterval(function(){
-      WifiWizard.getScanResults(listPrint, fail);
-    }, 100);*/
-
-    function listPrint(a) {
-    }
-
-    function alertPrint(a) {
-      alert(a);
-    }
-
-    function fail(e) {
-      alert("Failed "+e);
-    }
 
     ///////////////////////////////////////////////
     let stage;
