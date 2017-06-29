@@ -1,9 +1,12 @@
 object{
-  width: 680px;
-  height: 500px;
-  padding:0;
-  margin:0;
   border:0 solid;
+}
+#obj{
+  width:120%;
+  height:120%;
+  top:-10%;
+  left:-10%;
+  position:absolute;
 }
 #stream{
   width: 120%;
@@ -13,7 +16,6 @@ object{
   top:-10%;
   left:-10%;
   position:absolute;
-  border:6px solid #ff0000;
 }
 #stream .c1{
   position:absolute;
