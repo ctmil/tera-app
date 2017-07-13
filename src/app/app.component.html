@@ -1,11 +1,12 @@
 <!--
 Streaming Object
 -->
-<object id="obj" type="text/html" [data]="url" style="transform:translate(0px, 0px) rotateZ(0deg) scale(1, 1);"></object>
-  <div id="stream" class="object" style="transform:translate(0px, 0px) rotateZ(0deg) scale(1, 1);">
-</div>
+<div id="obj" id="stream" [style.background]="url" [style.background-size]="c"></div>
+<!--img id="obj" [src]="url" alt="No Stream" id="stream"-->
+<!--iframe id="obj" src="http://192.168.1.181:8090/stream" style="transform:translate(0px, 0px) rotateZ(0deg) scale(1, 1);"></iframe-->
+<!--div id="stream" class="object" style="transform:translate(0px, 0px) rotateZ(0deg) scale(1, 1);"></div-->
 
-<!--div class="object" id="stream" style="transform:translate(0px, 0px) rotateZ(0deg) scale(1, 1);">
+<!--div class="object" id="stream">
   <div class="c1">
   </div>
   <div class="c2">
@@ -15,14 +16,16 @@ Streaming Object
 <!--
 DEBUG Start
 -->
-<div class="debug" style="position:fixed;top:5px;left:10px;font-size:22px;" *ngIf="true">
-  <p id="debug_px"></p>
-  <p id="debug_py"></p>
-  <p id="debug_scale"></p>
+<div class="debug" style="position:fixed;top:5px;left:10px;font-size:18px;">
+  <p id="acc"></p>
 </div>
 <!--
 DEBUG End
 -->
 
-<a href="#" class="f" id="izq">&#60;</a>
-<a href="#" class="f" id="der">&#62;</a>
+<a class="f" id="izq">
+  <span class="arrow">&#60;</span>
+</a>
+<a class="f" id="der">
+  <span class="arrow">&#62;</span>
+</a>

@@ -12,6 +12,12 @@
         },
         "com.pylonproducts.wifiwizard": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-device-motion": {
+            "PACKAGE_NAME": "io.cordova.teraapp"
+        },
+        "cordova-plugin-powermanagement": {
+            "PACKAGE_NAME": "io.cordova.teraapp"
         }
     },
     "dependent_plugins": {}

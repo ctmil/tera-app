@@ -1,0 +1,100 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "cordova-plugin-powermanagement",
+        "scope": null,
+        "escapedName": "cordova-plugin-powermanagement",
+        "name": "cordova-plugin-powermanagement",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/home/ignacio/Cordova/tera-app/cordova/node_modules"
+    ]
+  ],
+  "_from": "cordova-plugin-powermanagement@latest",
+  "_id": "cordova-plugin-powermanagement@1.0.5",
+  "_inCache": true,
+  "_location": "/cordova-plugin-powermanagement",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/cordova-plugin-powermanagement-1.0.5.tgz_1468262720093_0.7153210835531354"
+  },
+  "_npmUser": {
+    "name": "cranberrygame",
+    "email": "cranberrygame@yahoo.com"
+  },
+  "_npmVersion": "1.4.28",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "cordova-plugin-powermanagement",
+    "scope": null,
+    "escapedName": "cordova-plugin-powermanagement",
+    "name": "cordova-plugin-powermanagement",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-powermanagement/-/cordova-plugin-powermanagement-1.0.5.tgz",
+  "_shasum": "3f2734debe278ae7c58f7fbde5225d2fa6766725",
+  "_shrinkwrap": null,
+  "_spec": "cordova-plugin-powermanagement",
+  "_where": "/home/ignacio/Cordova/tera-app/cordova/node_modules",
+  "author": {
+    "name": "cranberrygame"
+  },
+  "bugs": {
+    "url": "https://github.com/cranberrygame/cordova-plugin-powermanagement/issues"
+  },
+  "cordova": {
+    "id": "cordova-plugin-powermanagement",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "dependencies": {},
+  "description": "full wake lock for the app which runs for a long time without user interaction.",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "3f2734debe278ae7c58f7fbde5225d2fa6766725",
+    "tarball": "https://registry.npmjs.org/cordova-plugin-powermanagement/-/cordova-plugin-powermanagement-1.0.5.tgz"
+  },
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "gitHead": "8a0d9bede11876b8a821204262d777c3650db393",
+  "homepage": "https://github.com/cranberrygame/cordova-plugin-powermanagement#readme",
+  "keywords": [
+    "cordova",
+    "power management",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "cranberrygame",
+      "email": "cranberrygame@yahoo.com"
+    }
+  ],
+  "name": "cordova-plugin-powermanagement",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cranberrygame/cordova-plugin-powermanagement.git"
+  },
+  "scripts": {},
+  "version": "1.0.5"
+}

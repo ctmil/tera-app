@@ -12,37 +12,6 @@
 <link href="styles.bundle.css" rel="stylesheet"/></head>
 <body>
   <script type="text/javascript" src="cordova.js"></script>
-  <script type="text/javascript">
-    /*setInterval(function(){
-      WifiWizard.getScanResults(listPrint, fail);
-    }, 100);*/
-
-    function test(){
-      WifiWizard.getScanResults(alertPrint, fail);
-    }
-
-    function alertPrint(a){
-      var str = JSON.stringify(a);
-      alert(a);
-    }
-
-    function listPrint(a) {
-      let str = JSON.stringify(a);
-      str = str.replace(/ *{ */g, '<br><br>');
-      str = str.replace(/ *}, */g, '<br><br>');
-      str = str.replace(/\[/g, '');
-      str = str.replace(/\]/g, '');
-      str = str.replace(/ *, */g, '<br>');
-      str = str.replace(/:/g, ': ');
-      str = str.replace(/ *} */g, '');
-      document.getElementById('append').innerHTML = str;
-    }
-    function fail(a){
-      alert(a);
-    }
-  </script>
-  <button type="button" name="button" onclick="test()" id="wifiw" style="position:fixed;font-size:16px;top:5px;right:5px;z-index:90;">WIFI</button>
-
   <app-root>
     <div class="loaders-container">
       <div class="spinner">

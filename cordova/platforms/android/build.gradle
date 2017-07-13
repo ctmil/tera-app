@@ -233,8 +233,8 @@ android {
             }
         }
         buildTypes {
-            debug {
-            	debuggable true
+            release {
+                signingConfig signingConfigs.release
             }
         }
         addSigningProps(cdvReleaseSigningPropertiesFile, signingConfigs.release)

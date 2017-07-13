@@ -7,11 +7,17 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "io.cordova.hellocordova"
-        },
         "com.pylonproducts.wifiwizard": {
-            "PACKAGE_NAME": "io.cordova.hellocordova"
+            "PACKAGE_NAME": "io.cordova.teraapp"
+        },
+        "cordova-plugin-device-motion": {
+            "PACKAGE_NAME": "io.cordova.teraapp"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "io.cordova.teraapp"
+        },
+        "cordova-plugin-powermanagement": {
+            "PACKAGE_NAME": "io.cordova.teraapp"
         }
     },
     "dependent_plugins": {}
