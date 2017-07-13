@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "install_all": "npm install && cd cordova && cordova plugin add wifiwizard && cordova platform add android && cd ..",
+    "install_all": "npm install && cd cordova && cordova platform add android && cordova plugin add wifiwizard && cordova plugin add cordova-plugin-device-motion && cordova plugin add cordova-plugin-powermanagement && cd ..",
     "cordova": "cd cordova && rm -r www && cd .. && ng build --prod --bh . --output-hashing none --output-path cordova/www/",
     "cordova-run": "npm run cordova && cd cordova && cordova run android",
     "cordova-build": "npm run cordova && cd cordova && cordova build android --release",
