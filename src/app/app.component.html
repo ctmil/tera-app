@@ -1,31 +1,25 @@
 <!--
 Streaming Object
 -->
-<div id="obj" id="stream" [style.background]="url" [style.background-size]="c"></div>
-<!--img id="obj" [src]="url" alt="No Stream" id="stream"-->
-<!--iframe id="obj" src="http://192.168.1.181:8090/stream" style="transform:translate(0px, 0px) rotateZ(0deg) scale(1, 1);"></iframe-->
-<!--div id="stream" class="object" style="transform:translate(0px, 0px) rotateZ(0deg) scale(1, 1);"></div-->
-
-<!--div class="object" id="stream">
-  <div class="c1">
-  </div>
-  <div class="c2">
-  </div>
-</div-->
+<div id="stream" [style.background]="url" [style.background-size]="c">
+  <div *ngIf="filter1" class="blendScreen" [style.background]="urlFil" [style.background-size]="cFil"></div>
+  <div *ngIf="filter2" class="blendOverlay" [style.background]="urlFil" [style.background-size]="cFil"></div>
+</div>
 
 <!--
 DEBUG Start
 -->
-<div class="debug" style="position:fixed;top:5px;left:10px;font-size:18px;">
+<!--div class="debug" style="position:fixed;top:5px;left:10px;font-size:18px;">
   <p id="acc"></p>
-</div>
+</div-->
 <!--
 DEBUG End
 -->
 
-<a class="f" id="izq">
+<div (click)="lessImg();" class="f" id="izq">
   <span class="arrow">&#60;</span>
-</a>
-<a class="f" id="der">
+</div>
+
+<div (click)="plusImg();" class="f" id="der">
   <span class="arrow">&#62;</span>
-</a>
+</div>

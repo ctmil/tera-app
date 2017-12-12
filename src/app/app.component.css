@@ -1,6 +1,3 @@
-.object{
-  background:#0000ff;
-}
 #obj{
   width:120%;
   height:120%;
@@ -18,19 +15,7 @@
   top:-10%;
   left:-10%;
   position:absolute;
-  box-shadow: inset 0 0 40px 20px #fff;
-}
-#stream .c1{
-  position:absolute;
-  width:50%;
-  height:100%;
-  border-right:10px solid #ff0000;
-}
-#stream .c2{
-  position:absolute;
-  width:100%;
-  height:50%;
-  border-bottom:10px solid #ff0000;
+  box-shadow: inset 0 0 40px 40px #000;
 }
 /*ARROWs*/
 .f{
@@ -67,4 +52,22 @@
   display:block;
   top:50%;
   margin-top:-20px;
+}
+.f:active{
+  background:rgba(140, 140, 200, 0.6);
+}
+/*FILTERs*/
+.blendScreen{
+  width:100%;
+  height:100%;
+  mix-blend-mode: screen;
+  background-size:cover;
+  box-shadow: inset 0 0 40px 40px #000;
+}
+.blendOverlay{
+  background:url('http://192.168.1.181:8080/stream/snapshot.jpeg?delay_s=0') no-repeat center center fixed;
+  background-size:cover;
+  width:100%;
+  height:100%;
+  mix-blend-mode: overlay;
 }

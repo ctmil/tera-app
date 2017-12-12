@@ -9,6 +9,7 @@
     </author>
     <preference name="Fullscreen" value="true" />
     <preference name="Orientation" value="landscape" />
+    <preference name="loadUrlTimeoutValue" value="700000" />
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="*" />

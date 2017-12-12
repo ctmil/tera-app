@@ -14,14 +14,26 @@ export class AppComponent {
   title = 'TeraApp';
   public url: SafeUrl;
   public c: SafeUrl;
+  public urlFil: SafeUrl;
+  public cFil: SafeUrl;
+  ///////////////////////////
+  public filter1:boolean;
+  public filter2:boolean;
+  public filter3:boolean;
+  public index:number;
+  public loop;
+  ///////////////////////////
   public wW: any;
   public wH: any;
   public wifiNet:any;
 
   constructor(private sanitizer: DomSanitizer){
+    this.filter1 = true;
+    this.index = 0;
+
     this.wW = (10*window.innerWidth)/100;
     this.wH = (10*window.innerHeight)/100;
-    this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.182:8080/stream/video.mjpeg") no-repeat center center fixed');
+    this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.158:8090/stream/video.mjpeg") no-repeat center center fixed');
     this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
     ///////////////////////
   }
@@ -39,9 +51,9 @@ export class AppComponent {
     }
 
     //WiFiWizard//
-    setInterval(function(){
+    /*setInterval(function(){
       WifiWizard.getScanResults(listPrint, fail); //Obtiene una lista de las conexiones WiFi - EN DESARROLLO
-    }, 2000);
+    }, 2000);*/
 
     function listPrint(a) {
       this.wifiNet = a;
@@ -61,16 +73,16 @@ export class AppComponent {
       var roll = Math.atan2(acceleration.y, acceleration.z) * 180/Math.PI;
 
       //Para Debug - Comentar si no se usa
-      document.getElementById('acc').innerHTML =
+      /*document.getElementById('acc').innerHTML =
                           'Acceleration X: ' + acceleration.x + '<br />' +
                           'Acceleration Y: ' + acceleration.y + '<br />' +
                           'Acceleration Z: ' + acceleration.z + '<br />' +
-                          'Roll: '+ roll;
+                          'Roll: '+ roll;*/
 
       //Compensación de Posicion
       document.getElementById('stream').style.top = -120+(acceleration.x*12)+"%";
 
-      if(acceleration.x > 7){
+      if(acceleration.x > 7 && acceleration.z > 0){
         document.getElementById('stream').style.left = String( (-1*roll/4) - 10 )+"%";
       }else{
         document.getElementById('stream').style.left = "-10%";
@@ -80,106 +92,88 @@ export class AppComponent {
     function onAccError(e) {
         alert('Error:'+e);
     }
-
-    ///////////////////////////////////////////////
-    //Definiciones de HammerJS - SIN USO actual
-    /*let stage;
-    let manager;
-    let Pan;
-    let Rotate;
-    let Pinch;
-    let Tap;
-    let DoubleTap;
-
-    stage = document.getElementById('stream');
-
-    manager = new Hammer.Manager(stage);
-
-    Pan = new Hammer.Pan();
-    Rotate = new Hammer.Rotate();
-    Pinch = new Hammer.Pinch();
-    Tap = new Hammer.Tap({
-      taps: 1
-    });
-    DoubleTap = new Hammer.Tap({
-      event: 'doubletap',
-      taps: 2
-    });
-
-    Rotate.recognizeWith([Pan]);
-    Pinch.recognizeWith([Rotate, Pan]);
-    DoubleTap.recognizeWith([Tap]);
-    Tap.requireFailure([DoubleTap]);
-
-    manager.add(Pan);
-    manager.add(Rotate);
-    manager.add(Pinch);
-    manager.add(DoubleTap);
-    manager.add(Tap);
-
-    //E-MOVE//
-    //this.eventMove(manager, stage);
-    //E-SCALE//
-    //this.eventScale(manager, stage);*/
-
-    ///////////////////////////////////////////////
   }
 
-  /*eventMove(manager:any, stage:any){
-    let this_ = this;
-    let deltaX = 0;
-    let deltaY = 0;
-    manager.on('panmove', function(e) {
-      let dX = deltaX + (e.deltaX);
-      let dY = deltaY + (e.deltaY);
-      let r = document.getElementById('obj').style.transform.match(/rotateZ\((.*deg)\)/g);
-      let s = document.getElementById('obj').style.transform.match(/scale\((.*)\)/g);
-      //Limitar extremos//
-      if(dX > this_.wW){
-        dX = this_.wW-0.1;
-      }else if(dX < -this_.wW){
-        dX = -this_.wW+0.1;
-      }
-      if(dY > this_.wH){
-        dY = this_.wH-0.1;
-      }else if(dY < -this_.wH){
-        dY = -this_.wH+0.1;
-      }
-      ///////////////////
-      document.getElementById('obj').style.transform = 'translate('+dX+'px, '+dY+'px) '+r+' '+s+'';
-      //document.getElementById('debug_px').innerHTML = "X: "+dX.toString();
-      //document.getElementById('debug_py').innerHTML = "Y: "+dY.toString();
-    });
-    manager.on('panend', function(e) {
-        deltaX = deltaX + e.deltaX;
-        deltaY = deltaY + e.deltaY;
-    });
+  plusImg(){
+    this.index++;
+
+    if(this.index < 0){
+      this.index = 0;
+    }else if(this.index > 2){
+      this.index = 2;
+    }
+
+    if(this.index === 0){
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.158:8090/stream/video.mjpeg") no-repeat center center fixed');
+      this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+      this.filter(0, './assets/texture.jpg');
+    }else if(this.index === 1){
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.160:8090/stream/video.mjpeg") no-repeat center center fixed');
+      this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+      this.filter(1, 'http://192.168.1.160:8090/stream/snapshot.jpeg?delay_s=');
+    }else if(this.index === 2){
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8090/stream/video.mjpeg") no-repeat center center fixed');
+      this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+      this.filter(2, './assets/none.jpg');
+    }
+
   }
 
-  eventScale(manager:any, stage:any){
-    let this_ = this;
-    let liveScale = 1;
-    let currentScale = 1;
-    manager.on('pinchmove', function(e) {
-      let scale = e.scale * currentScale;
-      let t = document.getElementById('obj').style.transform.match(/translate\((.*px,.*px)\)/g);
-      let r = document.getElementById('obj').style.transform.match(/rotateZ\((.*deg)\)/g);
-      //Limitar Escala//
-      if(scale <= 1){
-        scale = 1;
-      }
-      if(scale >= 1.5){
-        scale = 1.5;
-      }
-      /////////////////
-      document.getElementById('obj').style.transform = ''+t+' '+r+' scale('+scale+')';
-      //document.getElementById('debug_scale').innerHTML = "S: "+scale.toString();
-      this_.wW = ((scale*10)*window.innerWidth)/100;
-      this_.wH = ((scale*10)*window.innerHeight)/100;
-    });
-    manager.on('pinchend', function(e) {
-      currentScale = e.scale * currentScale;
-      liveScale = currentScale;
-    });
-  }*/
+  lessImg(){
+    this.index--;
+
+    if(this.index < 0){
+      this.index = 0;
+    }else if(this.index > 2){
+      this.index = 2;
+    }
+
+    if(this.index === 0){
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.158:8090/stream/video.mjpeg") no-repeat center center fixed');
+      this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+      this.filter(0, './assets/texture.jpg');
+    }else if(this.index === 1){
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.160:8090/stream/video.mjpeg") no-repeat center center fixed');
+      this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+      this.filter(1, 'http://192.168.1.160:8090/stream/snapshot.jpeg?delay_s=');
+    }else if(this.index === 2){
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8090/stream/video.mjpeg") no-repeat center center fixed');
+      this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+      this.filter(2, './assets/none.jpg');
+    }
+
+  }
+
+  filter(n:number, s:string){
+    let _this = this;
+    let i = 0;
+
+    if(n == 0){ //Filtro Screen
+      clearInterval(this.loop);
+      this.filter1 = true;
+      this.filter2 = false;
+      this.filter3 = false;
+      this.urlFil = this.sanitizer.bypassSecurityTrustStyle('url('+s+') no-repeat center center fixed');
+      this.cFil = this.sanitizer.bypassSecurityTrustStyle('cover');
+    }else if(n == 1){ //Filtro Fantasma (Overlay)
+      this.filter1 = false;
+      this.filter2 = true;
+      this.filter3 = false;
+      this.urlFil = this.sanitizer.bypassSecurityTrustStyle('url('+s+i.toString()+') no-repeat center center fixed');
+      this.cFil = this.sanitizer.bypassSecurityTrustStyle('cover');
+
+      this.loop = setInterval(function(){
+        i+= Math.floor(Math.random() * (1 - -1)) + -1;
+        _this.urlFil = _this.sanitizer.bypassSecurityTrustStyle('url('+s+i.toString()+') no-repeat center center fixed');
+        _this.cFil = _this.sanitizer.bypassSecurityTrustStyle('cover');
+      }, 3000);
+    }else if(n == 2){
+      clearInterval(this.loop);
+      this.filter1 = false;
+      this.filter2 = false;
+      this.filter3 = true;
+      this.urlFil = this.sanitizer.bypassSecurityTrustStyle('url("./assets/none.png") no-repeat center center fixed');
+      this.cFil = this.sanitizer.bypassSecurityTrustStyle('cover');
+    }
+  }
 }
