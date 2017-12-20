@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 //import * as Hammer from 'hammerjs';
 declare var WifiWizard:any;
@@ -33,7 +33,7 @@ export class AppComponent {
 
     this.wW = (10*window.innerWidth)/100;
     this.wH = (10*window.innerHeight)/100;
-    this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.158:8090/stream/video.mjpeg") no-repeat center center fixed');
+    this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8080/stream/video.mjpeg") no-repeat center center fixed');
     this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
     ///////////////////////
   }
@@ -104,15 +104,15 @@ export class AppComponent {
     }
 
     if(this.index === 0){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.158:8090/stream/video.mjpeg") no-repeat center center fixed');
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8080/stream/video.mjpeg") no-repeat center center fixed');
       this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
       this.filter(0, './assets/texture.jpg');
     }else if(this.index === 1){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.160:8090/stream/video.mjpeg") no-repeat center center fixed');
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8080/stream/video.mjpeg") no-repeat center center fixed');
       this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
       this.filter(1, 'http://192.168.1.160:8090/stream/snapshot.jpeg?delay_s=');
     }else if(this.index === 2){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8090/stream/video.mjpeg") no-repeat center center fixed');
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8080/stream/video.mjpeg") no-repeat center center fixed');
       this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
       this.filter(2, './assets/none.jpg');
     }
@@ -129,15 +129,15 @@ export class AppComponent {
     }
 
     if(this.index === 0){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.158:8090/stream/video.mjpeg") no-repeat center center fixed');
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8080/stream/video.mjpeg") no-repeat center center fixed');
       this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
       this.filter(0, './assets/texture.jpg');
     }else if(this.index === 1){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.160:8090/stream/video.mjpeg") no-repeat center center fixed');
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8080/stream/video.mjpeg") no-repeat center center fixed');
       this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
       this.filter(1, 'http://192.168.1.160:8090/stream/snapshot.jpeg?delay_s=');
     }else if(this.index === 2){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8090/stream/video.mjpeg") no-repeat center center fixed');
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8080/stream/video.mjpeg") no-repeat center center fixed');
       this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
       this.filter(2, './assets/none.jpg');
     }
