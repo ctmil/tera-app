@@ -108,11 +108,11 @@ export class AppComponent {
       this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
       this.filter(0, './assets/texture.jpg');
     }else if(this.index === 1){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8080/?action=stream") no-repeat center center fixed');
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8081/?action=stream") no-repeat center center fixed');
       this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
       this.filter(1, 'http://192.168.1.160:8090/stream/snapshot.jpeg?delay_s=');
     }else if(this.index === 2){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8080/?action=stream") no-repeat center center fixed');
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8080/?action=stream") no-repeat center center fixed');
       this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
       this.filter(2, './assets/none.jpg');
     }
@@ -133,11 +133,11 @@ export class AppComponent {
       this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
       this.filter(0, './assets/texture.jpg');
     }else if(this.index === 1){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8080/?action=stream") no-repeat center center fixed');
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8081/?action=stream") no-repeat center center fixed');
       this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
       this.filter(1, 'http://192.168.1.160:8090/stream/snapshot.jpeg?delay_s=');
     }else if(this.index === 2){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8080/?action=stream") no-repeat center center fixed');
+      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8080/?action=stream") no-repeat center center fixed');
       this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
       this.filter(2, './assets/none.jpg');
     }
