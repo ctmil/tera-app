@@ -1,7 +1,16 @@
 <!--
 Streaming Object
 -->
-<div id="stream" [style.background]="url" [style.background-size]="c">
+<div #stream id="stream" [style.background]="url" [style.background-size]="c">
+</div>
+
+<img #imagen [src]="imgUrl">
+
+<audio #audio [src]="audioUrl" autoplay loop>
+</audio>
+
+<div #texto class="tera-text">
+  {{textoContenido}}
 </div>
 
 <!--

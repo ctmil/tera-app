@@ -1,6 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
-//import * as Hammer from 'hammerjs';
 declare var WifiWizard:any;
 declare var navigator:any;
 declare var window:any;
@@ -12,33 +11,37 @@ declare var window:any;
 })
 export class AppComponent {
   title = 'TeraApp';
-  public url: SafeUrl;
   public c: SafeUrl;
   public urlFil: SafeUrl;
   public cFil: SafeUrl;
+  ///////////////////////////*STREAM*/
+  public url: SafeUrl;
+  ///////////////////////////*AUDIO*/
+  public audioUrl: SafeUrl;
+  //////////////////////////*IMAGEN*/
+  public imgUrl: SafeUrl;
+  /////////////////////////*TEXTO*/
+  public textoContenido:string = '';
   ///////////////////////////
-  public filter1:boolean;
+  public filter1:boolean = true;
   public filter2:boolean;
   public filter3:boolean;
-  public index:number;
+  public index:number = 0;
   public loop;
   ///////////////////////////
-  public wW: any;
-  public wH: any;
   public wifiNet:any;
 
   constructor(private sanitizer: DomSanitizer){
-    this.filter1 = true;
-    this.index = 0;
-
-    this.wW = (10*window.innerWidth)/100;
-    this.wH = (10*window.innerHeight)/100;
+    /*-STREAM DEFAULT-*/
     this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8080/?action=stream") no-repeat center center fixed');
     this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
-    ///////////////////////
+    /*-AUDIO DEFAULT-*/
+    this.audioUrl = this.sanitizer.bypassSecurityTrustUrl('assets/audio/tv_test_01.mp3');
+    /*-IMAGEN DEFAULT-*/
+    this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('');
   }
 
-  ngOnInit(){
+  public ngOnInit(): void{
     //Iniciar Dispositivo//
     onLoad();
 
@@ -70,7 +73,7 @@ export class AppComponent {
 
     function onAccelSuccess(acceleration) { //Acelerómetro
       //Calculo rápido para Rotación
-      var roll = Math.atan2(acceleration.y, acceleration.z) * 180/Math.PI;
+      let roll = Math.atan2(acceleration.y, acceleration.z) * 180/Math.PI;
 
       //Para Debug - Comentar si no se usa
       /*document.getElementById('acc').innerHTML =
@@ -94,7 +97,7 @@ export class AppComponent {
     }
   }
 
-  plusImg(){
+  public plusImg(): void{
     this.index++;
 
     if(this.index < 0){
@@ -119,7 +122,7 @@ export class AppComponent {
 
   }
 
-  lessImg(){
+  public lessImg(): void{
     this.index--;
 
     if(this.index < 0){
@@ -144,7 +147,7 @@ export class AppComponent {
 
   }
 
-  filter(n:number, s:string){
+  public filter(n:number, s:string): void{
     let _this = this;
     let i = 0;
 
