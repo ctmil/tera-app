@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+﻿import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 declare var WifiWizard2:any;
 declare var navigator:any;
@@ -31,11 +31,12 @@ export class AppComponent {
   public filter3:boolean;
   public index:number = 0;
   public loop;
-  ///////////////////////////
+  ///////////////////////////LISTENER//
+  public audioLoopListener: () => void;
 
-  constructor(private sanitizer: DomSanitizer){
+  constructor(private sanitizer: DomSanitizer, private renderer: Renderer2){
     /*-STREAM DEFAULT-*/
-    this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8080/?action=stream") no-repeat center center fixed');
+    //this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8080/?action=stream") no-repeat center center fixed');
     this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
     /*-AUDIO DEFAULT-*/
     this.audioUrl = this.sanitizer.bypassSecurityTrustUrl('assets/audio/tv_test_01.mp3');
@@ -45,19 +46,21 @@ export class AppComponent {
 
   public ngOnInit(): void{
     //Iniciar Dispositivo//
+    let _this = this;
     onLoad();
+    this.loopAudio(1);
 
     function onLoad() {
         document.addEventListener("deviceready", onDeviceReady, false);
     }
     function onDeviceReady() {
         window.powermanagement.acquire(); //WeakLock para que la pantalla no se bloquee
-        setInterval(function(){ startWatch(); }, 1000); //Espera un segundo antes de ver el Acc
+        setTimeout(function(){ startWatch(); }, 1000); //Espera un segundo antes de ver el Acc
     }
 
     //START WiFiWizard
-    /*setInterval(function(){
-      WifiWizard2.getConnectedSSID(success, fail); //Obtiene una lista de las conexiones WiFi - EN DESARROLLO
+    setInterval(function(){
+      WifiWizard2.getCurrentSSID(success, fail); //Obtiene conexion WiFi actual
     }, 2000);
 
     function success(a) {
@@ -65,12 +68,12 @@ export class AppComponent {
     }
     function fail(a){
       alert(a);
-    }*/
+    }
     //END WifiWizard
 
     //Accelerometer//
     function startWatch() {
-        var options = { frequency: 100 }; //Frecuencia del Acelerómetro, a Mayor numero más lento pero más eficiente - BUSCAR EQUILIBRIO
+        let options = { frequency: 100 }; //Frecuencia del Acelerómetro, a Mayor numero más lento pero más eficiente - BUSCAR EQUILIBRIO
         navigator.accelerometer.watchAcceleration(onAccelSuccess, onAccError, options); //Watch de la Aceleración
     }
 
@@ -86,14 +89,14 @@ export class AppComponent {
                           'Roll: '+ roll;*/
 
       //Compensación de Posicion
-      this.stream.nativeElement.style.top = -120+(acceleration.x*12)+"%";
+      _this.stream.nativeElement.style.top = -120+(acceleration.x*12)+"%";
       //document.getElementById('stream').style.top = -120+(acceleration.x*12)+"%";
 
       if(acceleration.x > 7 && acceleration.z > 0){
-        this.stream.nativeElement.style.left = String( (-1*roll/4) - 10 )+"%";
+        _this.stream.nativeElement.style.left = String( (-1*roll/4) - 10 )+"%";
         //document.getElementById('stream').style.left = String( (-1*roll/4) - 10 )+"%";
       }else{
-        this.stream.nativeElement.style.left = "-10%";
+        _this.stream.nativeElement.style.left = "-10%";
         //document.getElementById('stream').style.left = "-10%";
       }
     }
@@ -103,8 +106,24 @@ export class AppComponent {
     }
   }
 
+  public loopAudio(n:number): void{
+    this.audio.nativeElement.autoplay = true;
+    this.audio.nativeElement.play();
+    let loopLimit = n;
+    let loopCounter = 0;
+    this.audioLoopListener = this.renderer.listen(this.audio.nativeElement, "ended", () => {
+      if (loopCounter < loopLimit){
+          this.audio.nativeElement.currentTime = 0;
+          this.audio.nativeElement.play();
+          loopCounter++;
+      }else{
+        this.audioLoopListener();
+      }
+    });
+  }
+
   public plusImg(): void{
-    this.index++;
+    /*this.index++;
 
     if(this.index < 0){
       this.index = 0;
@@ -124,12 +143,12 @@ export class AppComponent {
       this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8080/?action=stream") no-repeat center center fixed');
       this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
       this.filter(2, './assets/none.jpg');
-    }
+    }*/
 
   }
 
   public lessImg(): void{
-    this.index--;
+    /*this.index--;
 
     if(this.index < 0){
       this.index = 0;
@@ -149,12 +168,12 @@ export class AppComponent {
       this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8080/?action=stream") no-repeat center center fixed');
       this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
       this.filter(2, './assets/none.jpg');
-    }
+    }*/
 
   }
 
   public filter(n:number, s:string): void{
-    let _this = this;
+    /*let _this = this;
     let i = 0;
 
     if(n == 0){ //Filtro Screen
@@ -183,6 +202,6 @@ export class AppComponent {
       this.filter3 = true;
       this.urlFil = this.sanitizer.bypassSecurityTrustStyle('url("./assets/none.png") no-repeat center center fixed');
       this.cFil = this.sanitizer.bypassSecurityTrustStyle('cover');
-    }
+    }*/
   }
 }

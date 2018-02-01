@@ -65,7 +65,7 @@
   box-shadow: inset 0 0 40px 40px #000;
 }
 .blendOverlay{
-  background:url('http://192.168.1.181:8080/stream/snapshot.jpeg?delay_s=0') no-repeat center center fixed;
+  /*background:url('http://192.168.1.181:8080/stream/snapshot.jpeg?delay_s=0') no-repeat center center fixed;*/
   background-size:cover;
   width:100%;
   height:100%;
