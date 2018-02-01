@@ -16,9 +16,13 @@
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "io.cordova.teraapp"
     },
-    "com.pylonproducts.wifiwizard": {
+    "wifiwizard2": {
       "PACKAGE_NAME": "io.cordova.teraapp"
     }
   },
-  "dependent_plugins": {}
+  "dependent_plugins": {
+    "es6-promise-plugin": {
+      "PACKAGE_NAME": "io.cordova.teraapp"
+    }
+  }
 }

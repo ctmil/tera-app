@@ -1,6 +1,6 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
-declare var WifiWizard:any;
+declare var WifiWizard2:any;
 declare var navigator:any;
 declare var window:any;
 
@@ -10,15 +10,18 @@ declare var window:any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'TeraApp';
+  public title = 'TeraApp';
   public c: SafeUrl;
   public urlFil: SafeUrl;
   public cFil: SafeUrl;
   ///////////////////////////*STREAM*/
+  @ViewChild("stream") stream: ElementRef;
   public url: SafeUrl;
   ///////////////////////////*AUDIO*/
+  @ViewChild("audio") audio: ElementRef;
   public audioUrl: SafeUrl;
   //////////////////////////*IMAGEN*/
+  @ViewChild("imagen") imagen: ElementRef;
   public imgUrl: SafeUrl;
   /////////////////////////*TEXTO*/
   public textoContenido:string = '';
@@ -29,7 +32,6 @@ export class AppComponent {
   public index:number = 0;
   public loop;
   ///////////////////////////
-  public wifiNet:any;
 
   constructor(private sanitizer: DomSanitizer){
     /*-STREAM DEFAULT-*/
@@ -53,17 +55,18 @@ export class AppComponent {
         setInterval(function(){ startWatch(); }, 1000); //Espera un segundo antes de ver el Acc
     }
 
-    //WiFiWizard//
+    //START WiFiWizard
     /*setInterval(function(){
-      WifiWizard.getScanResults(listPrint, fail); //Obtiene una lista de las conexiones WiFi - EN DESARROLLO
-    }, 2000);*/
+      WifiWizard2.getConnectedSSID(success, fail); //Obtiene una lista de las conexiones WiFi - EN DESARROLLO
+    }, 2000);
 
-    function listPrint(a) {
-      this.wifiNet = a;
+    function success(a) {
+      console.log(a);
     }
     function fail(a){
       alert(a);
-    }
+    }*/
+    //END WifiWizard
 
     //Accelerometer//
     function startWatch() {
@@ -83,12 +86,15 @@ export class AppComponent {
                           'Roll: '+ roll;*/
 
       //Compensación de Posicion
-      document.getElementById('stream').style.top = -120+(acceleration.x*12)+"%";
+      this.stream.nativeElement.style.top = -120+(acceleration.x*12)+"%";
+      //document.getElementById('stream').style.top = -120+(acceleration.x*12)+"%";
 
       if(acceleration.x > 7 && acceleration.z > 0){
-        document.getElementById('stream').style.left = String( (-1*roll/4) - 10 )+"%";
+        this.stream.nativeElement.style.left = String( (-1*roll/4) - 10 )+"%";
+        //document.getElementById('stream').style.left = String( (-1*roll/4) - 10 )+"%";
       }else{
-        document.getElementById('stream').style.left = "-10%";
+        this.stream.nativeElement.style.left = "-10%";
+        //document.getElementById('stream').style.left = "-10%";
       }
     }
 

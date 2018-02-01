@@ -23,12 +23,20 @@
     "is_top_level": true,
     "variables": {}
   },
-  "com.pylonproducts.wifiwizard": {
+  "wifiwizard2": {
     "source": {
       "type": "registry",
-      "id": "wifiwizard@^0.2.11"
+      "id": "https://github.com/tripflex/WifiWizard2.git"
     },
     "is_top_level": true,
+    "variables": {}
+  },
+  "es6-promise-plugin": {
+    "source": {
+      "type": "registry",
+      "id": "es6-promise-plugin@4.1.0"
+    },
+    "is_top_level": false,
     "variables": {}
   }
 }
