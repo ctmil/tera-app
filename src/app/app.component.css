@@ -55,27 +55,16 @@
 .f:active{
   background:rgba(140, 140, 200, 0.6);
 }
-/*FILTERs*/
-.blendScreen{
-  width:100%;
-  height:100%;
-  mix-blend-mode: screen;
-  background-size:cover;
-  box-shadow: inset 0 0 40px 40px #000;
-}
-.blendOverlay{
-  /*background:url('http://192.168.1.181:8080/stream/snapshot.jpeg?delay_s=0') no-repeat center center fixed;*/
-  background-size:cover;
-  width:100%;
-  height:100%;
-  mix-blend-mode: overlay;
-}
 /*TEXTO*/
 .tera-text{
   color:#eee;
   position:absolute;
   top:0;
   left:0;
+  width:100%;
+  height:auto;
+  text-align:center;
+  padding-top:35%;
 }
 /*DEBUG*/
 .debug_set{
@@ -98,4 +87,14 @@
   background:#eee;
   margin: 0 5% 10px 5%;
   border:1px solid #222;
+}
+/********************************************/
+/*****************KEYFRAMES******************/
+@keyframes fadeOut {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }

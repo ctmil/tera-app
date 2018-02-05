@@ -1,18 +1,23 @@
 <!--
 Streaming Object
 -->
-<div #stream id="stream" [style.background]="url" [style.background-size]="c">
+<div #stream id="stream" [style.background]="url" [style.background-size]="c" [hidden]="showStream">
 </div>
 
-<img #imagen [src]="imgUrl">
+<!--
+Layers
+-->
+<img #imagen [src]="imgUrl" [hidden]="showImg">
 
-<audio #audio [src]="audioUrl">
-</audio>
+<audio #audio [src]="audioUrl"></audio>
 
-<div #texto class="tera-text">
+<div #texto class="tera-text" [hidden]="showText">
   {{textoContenido}}
 </div>
 
+<!--
+Interface
+-->
 <div (click)="lessImg();" class="f" id="izq">
   <span class="arrow">&#60;</span>
 </div>

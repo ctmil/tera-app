@@ -18,6 +18,9 @@
     },
     "wifiwizard2": {
       "PACKAGE_NAME": "io.cordova.teraapp"
+    },
+    "cordova-plugin-console": {
+      "PACKAGE_NAME": "io.cordova.teraapp"
     }
   },
   "dependent_plugins": {

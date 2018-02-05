@@ -14,25 +14,36 @@ export class AppComponent {
   public c: SafeUrl;
   public urlFil: SafeUrl;
   public cFil: SafeUrl;
+
   ///////////////////////////*STREAM*/
   @ViewChild("stream") stream: ElementRef;
   public url: SafeUrl;
+  public showStream:boolean = false;
   ///////////////////////////*AUDIO*/
   @ViewChild("audio") audio: ElementRef;
   public audioUrl: SafeUrl;
   //////////////////////////*IMAGEN*/
   @ViewChild("imagen") imagen: ElementRef;
   public imgUrl: SafeUrl;
+  public showImg:boolean = false;
   /////////////////////////*TEXTO*/
   public textoContenido:string = '';
+  public showText:boolean = false;
+
+  //////////////////////////////////////
+  /*ESCENAS*/
+  public sce01:boolean = false;
+  public sce02:boolean = false;
+  public sce03:boolean = false;
+  public sce04:boolean = false;
+  public sce05:boolean = false;
+  public sce06:boolean = false;
+
   ////////////////////////*DEBUG*/
   @ViewChild("ip") ip: ElementRef;
   @ViewChild("port") port: ElementRef;
   public toggle:boolean = false;
   ///////////////////////////
-  public filter1:boolean = true;
-  public filter2:boolean;
-  public filter3:boolean;
   public index:number = 0;
   public loop;
   ///////////////////////////LISTENER//
@@ -43,16 +54,15 @@ export class AppComponent {
     //this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8080/?action=stream") no-repeat center center fixed');
     //this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
     /*-AUDIO DEFAULT-*/
-    //this.audioUrl = this.sanitizer.bypassSecurityTrustUrl('assets/audio/tv_test_01.mp3'); //Default Audio
+    this.audioUrl = this.sanitizer.bypassSecurityTrustUrl('assets/audio/tv_test_01.mp3'); //Default Audio
     /*-IMAGEN DEFAULT-*/
-    //this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('');  //Default Image
+    this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('assets/none.png');  //Default Image
   }
 
   public ngOnInit(): void{
     //Iniciar Dispositivo//
     let _this = this;
     onLoad();
-    this.loopAudio(1, 'assets/audio/tv_test_01.mp3');
 
     function onLoad() {
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -103,6 +113,24 @@ export class AppComponent {
     function onAccError(e) {
         alert('Error:'+e);
     }
+
+    //////////////////////////////////////////////////////////////
+
+    if(this.sce01){
+      this.escena1();
+    }else if(this.sce02){
+      this.escena2();
+    }else if(this.sce03){
+      this.escena3();
+    }else if(this.sce04){
+      this.escena4();
+    }else if(this.sce05){
+      this.escena5();
+    }else if(this.sce06){
+      this.escena6();
+    }else{
+      this.escena1();
+    }
   }
 
   public loopAudio(n:number, s:string): void{
@@ -128,6 +156,7 @@ export class AppComponent {
     let url = "http://"+this.ip.nativeElement.value+":"+this.port.nativeElement.value+"/?action=stream";
     this.url = this.sanitizer.bypassSecurityTrustStyle('url('+url+') no-repeat center center fixed');
     this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+    this.toggle = false;
   }
   //////////////////////////////////////////////////////////////////////////////
 
@@ -228,7 +257,7 @@ export class AppComponent {
   }
   public escena2(): void{
     //Audio
-    
+
     //Imagen
 
     //Texto

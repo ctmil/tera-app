@@ -33,4 +33,5 @@
     <plugin name="wifiwizard2" spec="https://github.com/tripflex/WifiWizard2.git" />
     <engine name="android" spec="^6.4.0" />
     <engine name="browser" spec="^4.1.0" />
+    <plugin name="cordova-plugin-console" spec="^1.1.0" />
 </widget>
