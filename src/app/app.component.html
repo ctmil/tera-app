@@ -13,16 +13,6 @@ Streaming Object
   {{textoContenido}}
 </div>
 
-<!--
-DEBUG Start
--->
-<!--div class="debug" style="position:fixed;top:5px;left:10px;font-size:18px;">
-  <p id="acc"></p>
-</div-->
-<!--
-DEBUG End
--->
-
 <div (click)="lessImg();" class="f" id="izq">
   <span class="arrow">&#60;</span>
 </div>
@@ -30,3 +20,16 @@ DEBUG End
 <div (click)="plusImg();" class="f" id="der">
   <span class="arrow">&#62;</span>
 </div>
+
+<!--
+DEBUG Start
+-->
+<a href="#" (click)="toggle=!toggle;" style="display:block;border-radius:50%;position:absolute;top:15px;right:15px;width:70px;height:65px;background:#ddd;text-decoration:none;text-align:center;font-size:45px;padding-top:5px;color:#111;">IP</a>
+<div class="debug_set" *ngIf="toggle">
+  <input #ip type="text" name="" value="192.168.100.1">
+  <input #port type="text" name="" value="8080">
+  <button (click)="changeIP();" type="button" name="button">OK</button>
+</div>
+<!--
+DEBUG End
+-->

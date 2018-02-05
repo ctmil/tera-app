@@ -25,6 +25,10 @@ export class AppComponent {
   public imgUrl: SafeUrl;
   /////////////////////////*TEXTO*/
   public textoContenido:string = '';
+  ////////////////////////*DEBUG*/
+  @ViewChild("ip") ip: ElementRef;
+  @ViewChild("port") port: ElementRef;
+  public toggle:boolean = false;
   ///////////////////////////
   public filter1:boolean = true;
   public filter2:boolean;
@@ -37,18 +41,18 @@ export class AppComponent {
   constructor(private sanitizer: DomSanitizer, private renderer: Renderer2){
     /*-STREAM DEFAULT-*/
     //this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8080/?action=stream") no-repeat center center fixed');
-    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+    //this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
     /*-AUDIO DEFAULT-*/
-    this.audioUrl = this.sanitizer.bypassSecurityTrustUrl('assets/audio/tv_test_01.mp3');
+    //this.audioUrl = this.sanitizer.bypassSecurityTrustUrl('assets/audio/tv_test_01.mp3'); //Default Audio
     /*-IMAGEN DEFAULT-*/
-    this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('');
+    //this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('');  //Default Image
   }
 
   public ngOnInit(): void{
     //Iniciar Dispositivo//
     let _this = this;
     onLoad();
-    this.loopAudio(1);
+    this.loopAudio(1, 'assets/audio/tv_test_01.mp3');
 
     function onLoad() {
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -60,14 +64,16 @@ export class AppComponent {
 
     //START WiFiWizard
     setInterval(function(){
-      WifiWizard2.getCurrentSSID(success, fail); //Obtiene conexion WiFi actual
+      //WifiWizard2.getCurrentSSID(success, fail); //Obtiene conexion WiFi actual
     }, 2000);
 
     function success(a) {
       console.log(a);
     }
+
     function fail(a){
-      alert(a);
+      alert("No está conectado a una Red");
+      console.log(a);
     }
     //END WifiWizard
 
@@ -80,13 +86,6 @@ export class AppComponent {
     function onAccelSuccess(acceleration) { //Acelerómetro
       //Calculo rápido para Rotación
       let roll = Math.atan2(acceleration.y, acceleration.z) * 180/Math.PI;
-
-      //Para Debug - Comentar si no se usa
-      /*document.getElementById('acc').innerHTML =
-                          'Acceleration X: ' + acceleration.x + '<br />' +
-                          'Acceleration Y: ' + acceleration.y + '<br />' +
-                          'Acceleration Z: ' + acceleration.z + '<br />' +
-                          'Roll: '+ roll;*/
 
       //Compensación de Posicion
       _this.stream.nativeElement.style.top = -120+(acceleration.x*12)+"%";
@@ -106,7 +105,8 @@ export class AppComponent {
     }
   }
 
-  public loopAudio(n:number): void{
+  public loopAudio(n:number, s:string): void{
+    this.audioUrl = this.sanitizer.bypassSecurityTrustUrl(s);
     this.audio.nativeElement.autoplay = true;
     this.audio.nativeElement.play();
     let loopLimit = n;
@@ -117,10 +117,19 @@ export class AppComponent {
           this.audio.nativeElement.play();
           loopCounter++;
       }else{
+        this.audio.nativeElement.autoplay = false;
         this.audioLoopListener();
       }
     });
   }
+
+  public changeIP(): void{  //DEBUG
+    console.log(this.ip.nativeElement.value + ":" +this.port.nativeElement.value);
+    let url = "http://"+this.ip.nativeElement.value+":"+this.port.nativeElement.value+"/?action=stream";
+    this.url = this.sanitizer.bypassSecurityTrustStyle('url('+url+') no-repeat center center fixed');
+    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+  }
+  //////////////////////////////////////////////////////////////////////////////
 
   public plusImg(): void{
     /*this.index++;
@@ -203,5 +212,58 @@ export class AppComponent {
       this.urlFil = this.sanitizer.bypassSecurityTrustStyle('url("./assets/none.png") no-repeat center center fixed');
       this.cFil = this.sanitizer.bypassSecurityTrustStyle('cover');
     }*/
+  }
+
+  //////////////////////////////////////////////////////////////
+  //************************ESCENAS***************************//
+  //////////////////////////////////////////////////////////////
+
+  public escena1(): void{
+    //Audio
+    this.loopAudio(1, 'assets/audio/tv_test_01.mp3');
+    //Imagen
+
+    //Texto
+
+  }
+  public escena2(): void{
+    //Audio
+    
+    //Imagen
+
+    //Texto
+
+  }
+  public escena3(): void{
+    //Audio
+
+    //Imagen
+
+    //Texto
+
+  }
+  public escena4(): void{
+    //Audio
+
+    //Imagen
+
+    //Texto
+
+  }
+  public escena5(): void{
+    //Audio
+
+    //Imagen
+
+    //Texto
+
+  }
+  public escena6(): void{
+    //Audio
+
+    //Imagen
+
+    //Texto
+
   }
 }
