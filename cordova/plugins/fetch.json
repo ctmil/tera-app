@@ -23,14 +23,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "wifiwizard2": {
-    "source": {
-      "type": "registry",
-      "id": "https://github.com/tripflex/WifiWizard2.git"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "es6-promise-plugin": {
     "source": {
       "type": "registry",
@@ -39,10 +31,10 @@
     "is_top_level": false,
     "variables": {}
   },
-  "cordova-plugin-console": {
+  "com.pylonproducts.wifiwizard": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-console@^1.1.0"
+      "id": "wifiwizard@^0.2.11"
     },
     "is_top_level": true,
     "variables": {}

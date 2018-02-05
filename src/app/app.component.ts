@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
-declare var WifiWizard2:any;
+declare var WifiWizard:any;
 declare var navigator:any;
 declare var window:any;
 
@@ -72,7 +72,8 @@ export class AppComponent {
 
     //START WiFiWizard
     setInterval(function(){
-      WifiWizard2.getCurrentSSID(success, fail); //Obtiene conexion WiFi actual
+      WifiWizard.getCurrentSSID(success, fail); //Obtiene conexion WiFi actual
+      WifiWizard.getCurrentBSSID(success, fail); //Obtiene conexion WiFi actual
     }, 2000);
 
     function success(a) {
