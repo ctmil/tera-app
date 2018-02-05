@@ -53,8 +53,6 @@ export class AppComponent {
     /*-STREAM DEFAULT-*/
     //this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8080/?action=stream") no-repeat center center fixed');
     //this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
-    /*-AUDIO DEFAULT-*/
-    this.audioUrl = this.sanitizer.bypassSecurityTrustUrl('assets/audio/tv_test_01.mp3'); //Default Audio
     /*-IMAGEN DEFAULT-*/
     this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('assets/none.png');  //Default Image
   }
@@ -74,7 +72,7 @@ export class AppComponent {
 
     //START WiFiWizard
     setInterval(function(){
-      //WifiWizard2.getCurrentSSID(success, fail); //Obtiene conexion WiFi actual
+      WifiWizard2.getCurrentSSID(success, fail); //Obtiene conexion WiFi actual
     }, 2000);
 
     function success(a) {
