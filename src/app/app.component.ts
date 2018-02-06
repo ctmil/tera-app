@@ -38,21 +38,20 @@ export class AppComponent {
   public sce04:boolean = false;
   public sce05:boolean = false;
   public sce06:boolean = false;
+  public nEscena:number = 1;
 
   ////////////////////////*DEBUG*/
   @ViewChild("ip") ip: ElementRef;
   @ViewChild("port") port: ElementRef;
   public toggle:boolean = false;
   ///////////////////////////
-  public index:number = 0;
+  public index:number = 1;
   public loop;
+  public gUrl:string = "192.168.0.102:80";
   ///////////////////////////LISTENER//
   public audioLoopListener: () => void;
 
   constructor(private sanitizer: DomSanitizer, private renderer: Renderer2){
-    /*-STREAM DEFAULT-*/
-    //this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8080/?action=stream") no-repeat center center fixed');
-    //this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
     /*-IMAGEN DEFAULT-*/
     this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('assets/none.png');  //Default Image
   }
@@ -72,8 +71,7 @@ export class AppComponent {
 
     //START WiFiWizard
     setInterval(function(){
-      WifiWizard.getCurrentSSID(success, fail); //Obtiene conexion WiFi actual
-      WifiWizard.getCurrentBSSID(success, fail); //Obtiene conexion WiFi actual
+      //WifiWizard.getCurrentSSID(success, fail); //Obtiene conexion WiFi actual
     }, 2000);
 
     function success(a) {
@@ -133,6 +131,9 @@ export class AppComponent {
   }
 
   public loopAudio(n:number, s:string): void{
+    if(this.audioLoopListener){
+      this.audioLoopListener();
+    }
     this.audioUrl = this.sanitizer.bypassSecurityTrustUrl(s);
     this.audio.nativeElement.autoplay = true;
     this.audio.nativeElement.play();
@@ -152,60 +153,28 @@ export class AppComponent {
 
   public changeIP(): void{  //DEBUG
     console.log(this.ip.nativeElement.value + ":" +this.port.nativeElement.value);
-    let url = "http://"+this.ip.nativeElement.value+":"+this.port.nativeElement.value+"/?action=stream";
-    this.url = this.sanitizer.bypassSecurityTrustStyle('url('+url+') no-repeat center center fixed');
-    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+    this.gUrl = "http://"+this.ip.nativeElement.value+":"+this.port.nativeElement.value;
+    /*this.url = this.sanitizer.bypassSecurityTrustStyle('url('+url+') no-repeat center center fixed');
+    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');*/
     this.toggle = false;
   }
   //////////////////////////////////////////////////////////////////////////////
 
-  public plusImg(): void{
-    /*this.index++;
+  public switchStream(n:number): void{
+    this.index+=n;
 
-    if(this.index < 0){
-      this.index = 0;
+    console.log(this.index);
+
+    if(this.index < 1){
+      this.index = 1;
     }else if(this.index > 2){
       this.index = 2;
     }
 
-    if(this.index === 0){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8080/?action=stream") no-repeat center center fixed');
-      this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
-      this.filter(0, './assets/texture.jpg');
-    }else if(this.index === 1){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8081/?action=stream") no-repeat center center fixed');
-      this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
-      this.filter(1, 'http://192.168.1.160:8090/stream/snapshot.jpeg?delay_s=');
-    }else if(this.index === 2){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8080/?action=stream") no-repeat center center fixed');
-      this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
-      this.filter(2, './assets/none.jpg');
-    }*/
-
-  }
-
-  public lessImg(): void{
-    /*this.index--;
-
-    if(this.index < 0){
-      this.index = 0;
-    }else if(this.index > 2){
-      this.index = 2;
-    }
-
-    if(this.index === 0){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8080/?action=stream") no-repeat center center fixed');
-      this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
-      this.filter(0, './assets/texture.jpg');
-    }else if(this.index === 1){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.135:8081/?action=stream") no-repeat center center fixed');
-      this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
-      this.filter(1, 'http://192.168.1.160:8090/stream/snapshot.jpeg?delay_s=');
-    }else if(this.index === 2){
-      this.url = this.sanitizer.bypassSecurityTrustStyle('url("http://192.168.1.181:8080/?action=stream") no-repeat center center fixed');
-      this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
-      this.filter(2, './assets/none.jpg');
-    }*/
+    this.url = null;
+    this.c = null;
+    this.url = this.sanitizer.bypassSecurityTrustStyle('url(http://'+this.gUrl+'/e'+this.nEscena+'cam'+this.index+') no-repeat center center fixed');
+    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
 
   }
 
@@ -247,51 +216,81 @@ export class AppComponent {
   //////////////////////////////////////////////////////////////
 
   public escena1(): void{
+    //Escena
+    this.nEscena = 1;
+    //Cam1
+    this.url = this.sanitizer.bypassSecurityTrustStyle('url(http://'+this.gUrl+'/e1cam'+this.index+') no-repeat center center fixed');
+    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
     //Audio
-    this.loopAudio(1, 'assets/audio/tv_test_01.mp3');
+    this.loopAudio(3, 'assets/audio/tv_test_01.mp3');
     //Imagen
 
     //Texto
-
+    this.textoContenido = "Escena 1";
   }
   public escena2(): void{
+    //Escena
+    this.nEscena = 2;
+    //Cam1
+    this.url = this.sanitizer.bypassSecurityTrustStyle('url('+this.gUrl+'/e2cam1) no-repeat center center fixed');
+    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
     //Audio
-
+    this.loopAudio(1, 'assets/audio/caricatura-gauchesca.mp3');
     //Imagen
 
     //Texto
-
+    this.textoContenido = "Escena 2";
   }
   public escena3(): void{
+    //Escena
+    this.nEscena = 3;
+    //Cam1
+    this.url = this.sanitizer.bypassSecurityTrustStyle('url('+this.gUrl+'/e3cam1) no-repeat center center fixed');
+    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
     //Audio
-
+    this.loopAudio(0, 'assets/audio/el-punto-de-vista-de-la-periferia.mp3');
     //Imagen
 
     //Texto
-
+    this.textoContenido = "Escena 3";
   }
   public escena4(): void{
+    //Escena
+    this.nEscena = 4;
+    //Cam1
+    this.url = this.sanitizer.bypassSecurityTrustStyle('url('+this.gUrl+'/e4cam1) no-repeat center center fixed');
+    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
     //Audio
-
+    this.loopAudio(1, 'assets/audio/marisa-enfermera-del-htal-italiano.mp3');
     //Imagen
 
     //Texto
-
+    this.textoContenido = "Escena 4";
   }
   public escena5(): void{
+    //Escena
+    this.nEscena = 5;
+    //Cam1
+    this.url = this.sanitizer.bypassSecurityTrustStyle('url('+this.gUrl+'/e5cam1) no-repeat center center fixed');
+    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
     //Audio
-
+    this.loopAudio(0, 'assets/audio/vamos-a-experimentar-un-minuto-de-introspeccion.mp3');
     //Imagen
 
     //Texto
-
+    this.textoContenido = "Escena 5";
   }
   public escena6(): void{
+    //Escena
+    this.nEscena = 6;
+    //Cam1
+    this.url = this.sanitizer.bypassSecurityTrustStyle('url('+this.gUrl+'/e6cam1) no-repeat center center fixed');
+    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
     //Audio
-
+    this.loopAudio(1, 'assets/audio/nos-podemos-arreglar-con-lo-que-hay-ahi.mp3');
     //Imagen
 
     //Texto
-
+    this.textoContenido = "Escena 6";
   }
 }
