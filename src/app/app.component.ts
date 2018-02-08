@@ -93,17 +93,15 @@ export class AppComponent {
     function onAccelSuccess(acceleration) { //Acelerómetro
       //Calculo rápido para Rotación
       let roll = Math.atan2(acceleration.y, acceleration.z) * 180/Math.PI;
+      console.log(acceleration.x);
 
       //Compensación de Posicion
-      _this.stream.nativeElement.style.top = -120+(acceleration.x*12)+"%";
-      //document.getElementById('stream').style.top = -120+(acceleration.x*12)+"%";
+      _this.stream.nativeElement.style.top = -120+(Math.abs(acceleration.x)*12)+"%";
 
       if(acceleration.x > 7 && acceleration.z > 0){
         _this.stream.nativeElement.style.left = String( (-1*roll/4) - 10 )+"%";
-        //document.getElementById('stream').style.left = String( (-1*roll/4) - 10 )+"%";
       }else{
         _this.stream.nativeElement.style.left = "-10%";
-        //document.getElementById('stream').style.left = "-10%";
       }
     }
 

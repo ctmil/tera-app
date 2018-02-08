@@ -9,7 +9,7 @@ Layers
 -->
 <img #imagen [src]="imgUrl" [hidden]="showImg">
 
-<audio #audio [src]="audioUrl"></audio>
+<audio #audio [src]="audioUrl" type="audio/mpeg"></audio>
 
 <div #texto class="tera-text" [hidden]="showText">
   {{textoContenido}}
@@ -32,16 +32,16 @@ DEBUG Start
 <a href="#" (click)="toggle=!toggle;" style="display:block;border-radius:50%;position:absolute;top:15px;right:15px;width:70px;height:65px;background:#ddd;text-decoration:none;text-align:center;font-size:45px;padding-top:5px;color:#111;">IP</a>
 <div class="debug_set" *ngIf="toggle">
   <input #ip type="text" name="" value="192.168.0.102">
-  <input #port type="text" name="" value="8080">
+  <input #port type="text" name="" value="80">
   <button (click)="changeIP();" type="button" name="button">OK</button>
 </div>
 <div class="debugFooter">
-  <a href="#" (click)="escena1();">1</a>
-  <a href="#" (click)="escena2();">2</a>
-  <a href="#" (click)="escena3();">3</a>
-  <a href="#" (click)="escena4();">4</a>
-  <a href="#" (click)="escena5();">5</a>
-  <a href="#" (click)="escena6();">6</a>
+  <a (click)="escena1();">1</a>
+  <a (click)="escena2();">2</a>
+  <a (click)="escena3();">3</a>
+  <a (click)="escena4();">4</a>
+  <a (click)="escena5();">5</a>
+  <a (click)="escena6();">6</a>
 </div>
 <!--
 DEBUG End
