@@ -44,6 +44,7 @@
         <variable name="XWALK_MODE" value="embedded" />
         <variable name="XWALK_MULTIPLEAPK" value="false" />
     </plugin>
+    <plugin name="com.unarin.cordova.beacon" spec="https://github.com/petermetz/cordova-plugin-ibeacon.git" />
     <engine name="browser" spec="^4.1.0" />
     <engine name="android" spec="^6.4.0" />
 </widget>

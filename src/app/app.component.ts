@@ -1,8 +1,10 @@
 ﻿import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { DeviceService } from './device.service';
 declare var WifiWizard:any;
 declare var navigator:any;
 declare var window:any;
+declare var cordova:any;
 
 @Component({
   selector: 'app-root',
@@ -30,6 +32,11 @@ export class AppComponent {
   public textoContenido:string = '';
   public showText:boolean = false;
 
+  /////////////////////////*BEACON*/
+  public beacons:any = [];
+	public uuid:string = '20cae8a0-a9cf-11e3-a5e2-0800200c9a66';
+  public identifier:string = 'TeraBeacon';
+
   //////////////////////////////////////
   /*ESCENAS*/
   public sce01:boolean = false;
@@ -48,10 +55,12 @@ export class AppComponent {
   public index:number = 1;
   public loop;
   public gUrl:string = "192.168.0.102:80";
+  public ipCurrent:string = "192.168.0.102";
+  public portCurrent:string = "80";
   ///////////////////////////LISTENER//
   public audioLoopListener: () => void;
 
-  constructor(private sanitizer: DomSanitizer, private renderer: Renderer2){
+  constructor(private sanitizer: DomSanitizer, private renderer: Renderer2, public device: DeviceService){
     /*-IMAGEN DEFAULT-*/
     this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('assets/none.png');  //Default Image
   }
@@ -64,51 +73,52 @@ export class AppComponent {
     function onLoad() {
         document.addEventListener("deviceready", onDeviceReady, false);
     }
+
     function onDeviceReady() {
         window.powermanagement.acquire(); //WeakLock para que la pantalla no se bloquee
-        setTimeout(function(){ startWatch(); }, 1000); //Espera un segundo antes de ver el Acc
+        setTimeout(function(){
+          _this.device.startWatchAcc(_this.stream);
+
+          let beaconRegion = new cordova.plugins.locationManager.BeaconRegion(_this.identifier, _this.uuid);
+    	    let delegate = new cordova.plugins.locationManager.Delegate();
+
+          delegate.didDetermineStateForRegion = function (pluginResult) {
+            console.log("State:", pluginResult);
+          };
+
+          delegate.didStartMonitoringForRegion = function (pluginResult) {
+            console.log("Monitoring:", pluginResult);
+          };
+
+    	    delegate.didRangeBeaconsInRegion = function (pluginResult) {
+    	        _this.beacons = pluginResult.beacons;
+              if(_this.beacons.length > 0){
+                console.log("Dist:", _this.beacons[0].accuracy);
+              }
+    	    };
+
+    	    cordova.plugins.locationManager.setDelegate(delegate);
+
+          cordova.plugins.locationManager.requestWhenInUseAuthorization();
+
+    	    cordova.plugins.locationManager.startRangingBeaconsInRegion(beaconRegion)
+    	        .fail(function(e) {alert(e);})
+    	        .done();
+        }, 1000); //Espera un segundo antes de ver el Acc y iBeacons
     }
 
     //START WiFiWizard
     setInterval(function(){
-      //WifiWizard.getCurrentSSID(success, fail); //Obtiene conexion WiFi actual
+      /*WifiWizard.getCurrentSSID(
+      function success(a) {
+        console.log(a);
+      },
+      function fail(a){
+        alert("No está conectado a una Red");
+        console.log(a);
+      }); //Obtiene conexion WiFi actual*/
     }, 2000);
-
-    function success(a) {
-      console.log(a);
-    }
-
-    function fail(a){
-      alert("No está conectado a una Red");
-      console.log(a);
-    }
     //END WifiWizard
-
-    //Accelerometer//
-    function startWatch() {
-        let options = { frequency: 100 }; //Frecuencia del Acelerómetro, a Mayor numero más lento pero más eficiente - BUSCAR EQUILIBRIO
-        navigator.accelerometer.watchAcceleration(onAccelSuccess, onAccError, options); //Watch de la Aceleración
-    }
-
-    function onAccelSuccess(acceleration) { //Acelerómetro
-      //Calculo rápido para Rotación
-      let roll = Math.atan2(acceleration.y, acceleration.z) * 180/Math.PI;
-      console.log(acceleration.x);
-
-      //Compensación de Posicion
-      _this.stream.nativeElement.style.top = -120+(Math.abs(acceleration.x)*12)+"%";
-
-      if(acceleration.x > 7 && acceleration.z > 0){
-        _this.stream.nativeElement.style.left = String( (-1*roll/4) - 10 )+"%";
-      }else{
-        _this.stream.nativeElement.style.left = "-10%";
-      }
-    }
-
-    function onAccError(e) {
-        alert('Error:'+e);
-    }
-
     //////////////////////////////////////////////////////////////
 
     if(this.sce01){
@@ -150,18 +160,20 @@ export class AppComponent {
   }
 
   public changeIP(): void{  //DEBUG
-    console.log(this.ip.nativeElement.value + ":" +this.port.nativeElement.value);
-    this.gUrl = "http://"+this.ip.nativeElement.value+":"+this.port.nativeElement.value;
-    /*this.url = this.sanitizer.bypassSecurityTrustStyle('url('+url+') no-repeat center center fixed');
-    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');*/
+    this.ipCurrent = this.ip.nativeElement.value;
+    this.portCurrent = this.port.nativeElement.value;
+    this.gUrl = this.ipCurrent+":"+this.portCurrent;
     this.toggle = false;
+
+    this.url = null;
+    this.c = null;
+    this.url = this.sanitizer.bypassSecurityTrustStyle('url(http://'+this.gUrl+'/e'+this.nEscena+'cam'+this.index+') no-repeat center center fixed');
+    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
   }
   //////////////////////////////////////////////////////////////////////////////
 
   public switchStream(n:number): void{
     this.index+=n;
-
-    console.log(this.index);
 
     if(this.index < 1){
       this.index = 1;
@@ -173,40 +185,6 @@ export class AppComponent {
     this.c = null;
     this.url = this.sanitizer.bypassSecurityTrustStyle('url(http://'+this.gUrl+'/e'+this.nEscena+'cam'+this.index+') no-repeat center center fixed');
     this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
-
-  }
-
-  public filter(n:number, s:string): void{
-    /*let _this = this;
-    let i = 0;
-
-    if(n == 0){ //Filtro Screen
-      clearInterval(this.loop);
-      this.filter1 = true;
-      this.filter2 = false;
-      this.filter3 = false;
-      this.urlFil = this.sanitizer.bypassSecurityTrustStyle('url('+s+') no-repeat center center fixed');
-      this.cFil = this.sanitizer.bypassSecurityTrustStyle('cover');
-    }else if(n == 1){ //Filtro Fantasma (Overlay)
-      this.filter1 = false;
-      this.filter2 = true;
-      this.filter3 = false;
-      this.urlFil = this.sanitizer.bypassSecurityTrustStyle('url('+s+i.toString()+') no-repeat center center fixed');
-      this.cFil = this.sanitizer.bypassSecurityTrustStyle('cover');
-
-      this.loop = setInterval(function(){
-        i+= Math.floor(Math.random() * (1 - -1)) + -1;
-        _this.urlFil = _this.sanitizer.bypassSecurityTrustStyle('url('+s+i.toString()+') no-repeat center center fixed');
-        _this.cFil = _this.sanitizer.bypassSecurityTrustStyle('cover');
-      }, 3000);
-    }else if(n == 2){
-      clearInterval(this.loop);
-      this.filter1 = false;
-      this.filter2 = false;
-      this.filter3 = true;
-      this.urlFil = this.sanitizer.bypassSecurityTrustStyle('url("./assets/none.png") no-repeat center center fixed');
-      this.cFil = this.sanitizer.bypassSecurityTrustStyle('cover');
-    }*/
   }
 
   //////////////////////////////////////////////////////////////
@@ -217,6 +195,8 @@ export class AppComponent {
     //Escena
     this.nEscena = 1;
     //Cam1
+    this.url = null;
+    this.c = null;
     this.url = this.sanitizer.bypassSecurityTrustStyle('url(http://'+this.gUrl+'/e1cam'+this.index+') no-repeat center center fixed');
     this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
     //Audio

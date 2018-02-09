@@ -11,6 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "com.pylonproducts.wifiwizard": "~0.2.11",
+    "com.unarin.cordova.beacon": "git+https://github.com/petermetz/cordova-plugin-ibeacon.git",
     "cordova-android": "^6.4.0",
     "cordova-browser": "^4.1.0",
     "cordova-plugin-crosswalk-webview": "^2.4.0",
@@ -33,7 +34,8 @@
         "XWALK_COMMANDLINE": "--disable-pull-to-refresh-effect",
         "XWALK_MODE": "embedded",
         "XWALK_MULTIPLEAPK": "true"
-      }
+      },
+      "com.unarin.cordova.beacon": {}
     },
     "platforms": [
       "browser",

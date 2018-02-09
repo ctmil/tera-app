@@ -29,10 +29,10 @@ Interface
 <!--
 DEBUG Start
 -->
-<a href="#" (click)="toggle=!toggle;" style="display:block;border-radius:50%;position:absolute;top:15px;right:15px;width:70px;height:65px;background:#ddd;text-decoration:none;text-align:center;font-size:45px;padding-top:5px;color:#111;">IP</a>
+<a (click)="toggle=!toggle;" style="display:block;border-radius:50%;position:absolute;top:15px;right:15px;width:70px;height:65px;background:#ddd;text-decoration:none;text-align:center;font-size:45px;padding-top:5px;color:#111;">IP</a>
 <div class="debug_set" *ngIf="toggle">
-  <input #ip type="text" name="" value="192.168.0.102">
-  <input #port type="text" name="" value="80">
+  <input #ip type="text" name="" [value]="ipCurrent">
+  <input #port type="text" name="" [value]="portCurrent">
   <button (click)="changeIP();" type="button" name="button">OK</button>
 </div>
 <div class="debugFooter">

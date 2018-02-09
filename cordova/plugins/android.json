@@ -26,6 +26,9 @@
       "XWALK_MODE": "embedded",
       "XWALK_MULTIPLEAPK": "true",
       "PACKAGE_NAME": "io.cordova.teraapp"
+    },
+    "com.unarin.cordova.beacon": {
+      "PACKAGE_NAME": "io.cordova.teraapp"
     }
   },
   "dependent_plugins": {}
