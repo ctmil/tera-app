@@ -31,7 +31,6 @@ export class AppComponent {
   /////////////////////////*TEXTO*/
   public textoContenido:string = '';
   public showText:boolean = false;
-
   /////////////////////////*BEACON*/
   public beacons:any = [];
 	public uuid:string = '20cae8a0-a9cf-11e3-a5e2-0800200c9a66';
@@ -75,6 +74,7 @@ export class AppComponent {
     }
 
     function onDeviceReady() {
+        _this.loadIP();  //DEBUG
         window.powermanagement.acquire(); //WeakLock para que la pantalla no se bloquee
         setTimeout(function(){
           _this.device.startWatchAcc(_this.stream);
@@ -93,7 +93,9 @@ export class AppComponent {
     	    delegate.didRangeBeaconsInRegion = function (pluginResult) {
     	        _this.beacons = pluginResult.beacons;
               if(_this.beacons.length > 0){
-                console.log("Dist:", _this.beacons[0].accuracy);
+                for (let i = 0; i < _this.beacons.length; i++) {
+                  console.log(_this.beacons[i].accuracy, _this.beacons[i].major, _this.beacons[i].minor);
+                }
               }
     	    };
 
@@ -159,7 +161,8 @@ export class AppComponent {
     });
   }
 
-  public changeIP(): void{  //DEBUG
+  //DEBUG//
+  public changeIP(): void{
     this.ipCurrent = this.ip.nativeElement.value;
     this.portCurrent = this.port.nativeElement.value;
     this.gUrl = this.ipCurrent+":"+this.portCurrent;
@@ -169,7 +172,19 @@ export class AppComponent {
     this.c = null;
     this.url = this.sanitizer.bypassSecurityTrustStyle('url(http://'+this.gUrl+'/e'+this.nEscena+'cam'+this.index+') no-repeat center center fixed');
     this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+
+    window.localStorage.setItem("ip", this.gUrl); //Save IP
   }
+  public loadIP(): void{
+    if(window.localStorage){
+      this.gUrl = window.localStorage.getItem("ip"); //Get Last IP
+    }else{
+      this.gUrl = "192.168.0.102:80";
+    }
+    this.ipCurrent = window.localStorage.getItem("ip");
+    this.url = this.sanitizer.bypassSecurityTrustStyle('url(http://'+this.gUrl+'/e'+this.nEscena+'cam'+this.index+') no-repeat center center fixed');
+    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+  }//*/
   //////////////////////////////////////////////////////////////////////////////
 
   public switchStream(n:number): void{
