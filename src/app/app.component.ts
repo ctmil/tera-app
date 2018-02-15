@@ -21,6 +21,7 @@ export class AppComponent {
   @ViewChild("stream") stream: ElementRef;
   public url: SafeUrl;
   public showStream:boolean = false;
+  public intervalStream: any;
   ///////////////////////////*AUDIO*/
   @ViewChild("audio") audio: ElementRef;
   public audioUrl: SafeUrl;
@@ -35,6 +36,8 @@ export class AppComponent {
   public beacons:any = [];
 	public uuid:string = '20cae8a0-a9cf-11e3-a5e2-0800200c9a66';
   public identifier:string = 'TeraBeacon';
+  ////////////////////////*WIFI*/
+  public wifi:any;
 
   //////////////////////////////////////
   /*ESCENAS*/
@@ -77,7 +80,7 @@ export class AppComponent {
         _this.loadIP();  //DEBUG
         window.powermanagement.acquire(); //WeakLock para que la pantalla no se bloquee
         setTimeout(function(){
-          _this.device.startWatchAcc(_this.stream);
+          _this.device.startWatchAcc(_this.stream); //Cargar Acelerometro de Device
 
           let beaconRegion = new cordova.plugins.locationManager.BeaconRegion(_this.identifier, _this.uuid);
     	    let delegate = new cordova.plugins.locationManager.Delegate();
@@ -111,14 +114,14 @@ export class AppComponent {
 
     //START WiFiWizard
     setInterval(function(){
-      /*WifiWizard.getCurrentSSID(
+      WifiWizard.getCurrentSSID(
       function success(a) {
-        console.log(a);
+        _this.wifi = a;
       },
       function fail(a){
         alert("No está conectado a una Red");
         console.log(a);
-      }); //Obtiene conexion WiFi actual*/
+      });
     }, 2000);
     //END WifiWizard
     //////////////////////////////////////////////////////////////
@@ -138,6 +141,20 @@ export class AppComponent {
     }else{
       this.escena1();
     }
+  }
+
+  public createStream(): void{
+    let _this = this;
+    if(this.intervalStream){
+      clearInterval(this.intervalStream);
+    }
+
+    this.intervalStream = setInterval(function() {
+      _this.url = null;
+      _this.c = null;
+      _this.url = _this.sanitizer.bypassSecurityTrustStyle('url(http://'+_this.gUrl+'/e'+_this.nEscena+'cam'+_this.index+') no-repeat center center fixed');
+      _this.c = _this.sanitizer.bypassSecurityTrustStyle('cover');
+    }, 15000);
   }
 
   public loopAudio(n:number, s:string): void{
@@ -168,10 +185,7 @@ export class AppComponent {
     this.gUrl = this.ipCurrent+":"+this.portCurrent;
     this.toggle = false;
 
-    this.url = null;
-    this.c = null;
-    this.url = this.sanitizer.bypassSecurityTrustStyle('url(http://'+this.gUrl+'/e'+this.nEscena+'cam'+this.index+') no-repeat center center fixed');
-    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+    this.createStream();
 
     window.localStorage.setItem("ip", this.gUrl); //Save IP
   }
@@ -182,8 +196,8 @@ export class AppComponent {
       this.gUrl = "192.168.0.102:80";
     }
     this.ipCurrent = window.localStorage.getItem("ip");
-    this.url = this.sanitizer.bypassSecurityTrustStyle('url(http://'+this.gUrl+'/e'+this.nEscena+'cam'+this.index+') no-repeat center center fixed');
-    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+
+    this.createStream();
   }//*/
   //////////////////////////////////////////////////////////////////////////////
 
@@ -196,10 +210,7 @@ export class AppComponent {
       this.index = 2;
     }
 
-    this.url = null;
-    this.c = null;
-    this.url = this.sanitizer.bypassSecurityTrustStyle('url(http://'+this.gUrl+'/e'+this.nEscena+'cam'+this.index+') no-repeat center center fixed');
-    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+    this.createStream();
   }
 
   //////////////////////////////////////////////////////////////
@@ -210,10 +221,7 @@ export class AppComponent {
     //Escena
     this.nEscena = 1;
     //Cam1
-    this.url = null;
-    this.c = null;
-    this.url = this.sanitizer.bypassSecurityTrustStyle('url(http://'+this.gUrl+'/e1cam'+this.index+') no-repeat center center fixed');
-    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+    this.createStream();
     //Audio
     this.loopAudio(3, 'assets/audio/tv_test_01.mp3');
     //Imagen
@@ -225,8 +233,7 @@ export class AppComponent {
     //Escena
     this.nEscena = 2;
     //Cam1
-    this.url = this.sanitizer.bypassSecurityTrustStyle('url('+this.gUrl+'/e2cam1) no-repeat center center fixed');
-    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+    this.createStream();
     //Audio
     this.loopAudio(1, 'assets/audio/caricatura-gauchesca.mp3');
     //Imagen
@@ -238,8 +245,7 @@ export class AppComponent {
     //Escena
     this.nEscena = 3;
     //Cam1
-    this.url = this.sanitizer.bypassSecurityTrustStyle('url('+this.gUrl+'/e3cam1) no-repeat center center fixed');
-    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+    this.createStream();
     //Audio
     this.loopAudio(0, 'assets/audio/el-punto-de-vista-de-la-periferia.mp3');
     //Imagen
@@ -251,8 +257,7 @@ export class AppComponent {
     //Escena
     this.nEscena = 4;
     //Cam1
-    this.url = this.sanitizer.bypassSecurityTrustStyle('url('+this.gUrl+'/e4cam1) no-repeat center center fixed');
-    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+    this.createStream();
     //Audio
     this.loopAudio(1, 'assets/audio/marisa-enfermera-del-htal-italiano.mp3');
     //Imagen
@@ -264,8 +269,7 @@ export class AppComponent {
     //Escena
     this.nEscena = 5;
     //Cam1
-    this.url = this.sanitizer.bypassSecurityTrustStyle('url('+this.gUrl+'/e5cam1) no-repeat center center fixed');
-    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+    this.createStream();
     //Audio
     this.loopAudio(0, 'assets/audio/vamos-a-experimentar-un-minuto-de-introspeccion.mp3');
     //Imagen
@@ -277,8 +281,7 @@ export class AppComponent {
     //Escena
     this.nEscena = 6;
     //Cam1
-    this.url = this.sanitizer.bypassSecurityTrustStyle('url('+this.gUrl+'/e6cam1) no-repeat center center fixed');
-    this.c = this.sanitizer.bypassSecurityTrustStyle('cover');
+    this.createStream();
     //Audio
     this.loopAudio(1, 'assets/audio/nos-podemos-arreglar-con-lo-que-hay-ahi.mp3');
     //Imagen
