@@ -240,7 +240,7 @@ export class AppComponent {
     //Cam1
     this.createStream();
     //Audio
-    this.loopAudio(1, 'assets/audio/caricatura-gauchesca.mp3');
+    this.loopAudio(3, 'assets/audio/tv_test_02.mp3');
     //Imagen
 
     //Texto
@@ -252,7 +252,7 @@ export class AppComponent {
     //Cam1
     this.createStream();
     //Audio
-    this.loopAudio(0, 'assets/audio/el-punto-de-vista-de-la-periferia.mp3');
+    this.loopAudio(3, 'assets/audio/tv_test_03.mp3');
     //Imagen
 
     //Texto
@@ -264,7 +264,7 @@ export class AppComponent {
     //Cam1
     this.createStream();
     //Audio
-    this.loopAudio(1, 'assets/audio/marisa-enfermera-del-htal-italiano.mp3');
+    this.loopAudio(1, 'assets/audio/tv_test_04.mp3');
     //Imagen
 
     //Texto
