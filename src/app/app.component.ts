@@ -113,7 +113,7 @@ export class AppComponent {
     }
 
     //START WiFiWizard
-    setInterval(function(){
+    /*setInterval(function(){
       WifiWizard.getCurrentSSID(
       function success(a) {
         _this.wifi = a;
@@ -123,7 +123,7 @@ export class AppComponent {
         console.log(a);
       });
     }, 2000);
-    //END WifiWizard
+    //END WifiWizard*/
     //////////////////////////////////////////////////////////////
 
     if(this.sce01){
@@ -149,12 +149,17 @@ export class AppComponent {
       clearInterval(this.intervalStream);
     }
 
+    _this.url = null;
+    _this.c = null;
+    _this.url = _this.sanitizer.bypassSecurityTrustStyle('url(http://'+_this.gUrl+'/e'+_this.nEscena+'cam'+_this.index+') no-repeat center center fixed');
+    _this.c = _this.sanitizer.bypassSecurityTrustStyle('cover');
+
     this.intervalStream = setInterval(function() {
       _this.url = null;
       _this.c = null;
       _this.url = _this.sanitizer.bypassSecurityTrustStyle('url(http://'+_this.gUrl+'/e'+_this.nEscena+'cam'+_this.index+') no-repeat center center fixed');
       _this.c = _this.sanitizer.bypassSecurityTrustStyle('cover');
-    }, 15000);
+    }, 10000);
   }
 
   public loopAudio(n:number, s:string): void{
