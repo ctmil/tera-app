@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { DeviceService } from './device.service';
+import { SocketService } from './socket.service';
 declare var WifiWizard:any;
 declare var navigator:any;
 declare var window:any;
@@ -9,7 +10,8 @@ declare var cordova:any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers : [SocketService]
 })
 export class AppComponent {
   public title = 'TeraApp';
@@ -62,7 +64,7 @@ export class AppComponent {
   ///////////////////////////LISTENER//
   public audioLoopListener: () => void;
 
-  constructor(private sanitizer: DomSanitizer, private renderer: Renderer2, public device: DeviceService){
+  constructor(private sanitizer: DomSanitizer, private renderer: Renderer2, public device: DeviceService, public socket: SocketService){
     /*-IMAGEN DEFAULT-*/
     this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('assets/none.png');  //Default Image
   }

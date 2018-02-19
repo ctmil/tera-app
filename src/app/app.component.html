@@ -35,7 +35,7 @@ DEBUG Start
   <input #port type="text" name="" [value]="portCurrent">
   <button (click)="changeIP();" type="button" name="button">OK</button>
 </div>
-<div class="debugFooter">
+<div class="debugFooter" *ngIf="toggle">
   <a (click)="escena1();">1</a>
   <a (click)="escena2();">2</a>
   <a (click)="escena3();">3</a>
