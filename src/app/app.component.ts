@@ -46,7 +46,6 @@ export class AppComponent {
   //////////////////////*CONTROL*/
   @ViewChild("arrowI") arrowI: ElementRef;
   @ViewChild("arrowD") arrowD: ElementRef;
-  public arrows:boolean;
   @ViewChild("debugButton") debugButton: ElementRef;
 
   //////////////////////////////////////
@@ -166,7 +165,7 @@ export class AppComponent {
   }
 
   public ngAfterViewInit(): void{
-    this.renderer.listen("document", "click", () => {
+    this.renderer.listen("document", "touchstart", () => {
       this.renderer.removeClass(this.arrowI.nativeElement, "debugFade");
       this.renderer.removeClass(this.arrowD.nativeElement, "debugFade");
       this.renderer.removeClass(this.debugButton.nativeElement, "debugFade");

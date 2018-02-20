@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class SocketService {
 
-  constructor(private socket: Socket) {}
+  constructor(private socket: Socket){}
 
   getMessage() {
       return this.socket
