@@ -40,6 +40,14 @@ export class AppComponent {
   public identifier:string = 'TeraBeacon';
   ////////////////////////*WIFI*/
   public wifi:any;
+  ///////////////////////*SOCKET-IO*/
+  public socketMsg:any;
+  public pSocketMsg:any;
+  //////////////////////*CONTROL*/
+  @ViewChild("arrowI") arrowI: ElementRef;
+  @ViewChild("arrowD") arrowD: ElementRef;
+  public arrows:boolean;
+  @ViewChild("debugButton") debugButton: ElementRef;
 
   //////////////////////////////////////
   /*ESCENAS*/
@@ -73,6 +81,10 @@ export class AppComponent {
     //Iniciar Dispositivo//
     let _this = this;
     onLoad();
+    //SocketIO//
+    _this.socket.getMessage().subscribe(msg => {
+      _this.socketMsg = msg;  //Recibir datos de SocketIO - Corre en Background
+    });
 
     function onLoad() {
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -109,7 +121,7 @@ export class AppComponent {
           cordova.plugins.locationManager.requestWhenInUseAuthorization();
 
     	    cordova.plugins.locationManager.startRangingBeaconsInRegion(beaconRegion)
-    	        .fail(function(e) {alert(e);})
+    	        .fail(function(e) {console.log(e);})
     	        .done();
         }, 1000); //Espera un segundo antes de ver el Acc y iBeacons
     }
@@ -145,6 +157,29 @@ export class AppComponent {
     }
   }
 
+  public ngDoCheck(): void{
+    if(this.socketMsg !== this.pSocketMsg){
+      //Actualizar solo cuando el valor de socketMsg sea nuevo
+      console.log(this.socketMsg);
+    }
+    this.pSocketMsg = this.socketMsg;
+  }
+
+  public ngAfterViewInit(): void{
+    this.renderer.listen("document", "click", () => {
+      this.renderer.removeClass(this.arrowI.nativeElement, "debugFade");
+      this.renderer.removeClass(this.arrowD.nativeElement, "debugFade");
+      this.renderer.removeClass(this.debugButton.nativeElement, "debugFade");
+      void this.arrowI.nativeElement.offsetWidth;
+      void this.arrowD.nativeElement.offsetWidth;
+      void this.debugButton.nativeElement.offsetWidth;
+      this.renderer.addClass(this.arrowI.nativeElement, "debugFade");
+      this.renderer.addClass(this.arrowD.nativeElement, "debugFade");
+      this.renderer.addClass(this.debugButton.nativeElement, "debugFade");
+    });
+  }
+
+  /*Funciones Tera*/
   public createStream(): void{
     let _this = this;
     if(this.intervalStream){

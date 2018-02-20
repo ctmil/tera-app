@@ -18,24 +18,24 @@ Layers
 <!--
 Interface
 -->
-<div (click)="switchStream(-1);" class="f" id="izq">
+<div #arrowI (click)="switchStream(-1);" class="f debugFade" id="izq" [hidden]="arrows">
   <span class="arrow">&#60;</span>
 </div>
 
-<div (click)="switchStream(1);" class="f" id="der">
+<div #arrowD (click)="switchStream(1);" class="f debugFade" id="der" [hidden]="arrows">
   <span class="arrow">&#62;</span>
 </div>
 
 <!--
 DEBUG Start
 -->
-<a (click)="toggle=!toggle;" style="display:block;border-radius:50%;position:absolute;top:15px;right:15px;width:70px;height:65px;background:#ddd;text-decoration:none;text-align:center;font-size:45px;padding-top:5px;color:#111;">IP</a>
-<div class="debug_set" *ngIf="toggle">
+<a #debugButton (click)="toggle=!toggle;" class="debugFade" style="display:block;border-radius:50%;position:absolute;top:15px;right:15px;width:70px;height:65px;background:#ddd;text-decoration:none;text-align:center;font-size:45px;padding-top:5px;color:#111;">IP</a>
+<div class="debug_set debugFade" *ngIf="toggle">
   <input #ip type="text" name="" [value]="ipCurrent">
   <input #port type="text" name="" [value]="portCurrent">
   <button (click)="changeIP();" type="button" name="button">OK</button>
 </div>
-<div class="debugFooter" *ngIf="toggle">
+<div class="debugFooter debugFade" *ngIf="toggle">
   <a (click)="escena1();">1</a>
   <a (click)="escena2();">2</a>
   <a (click)="escena3();">3</a>

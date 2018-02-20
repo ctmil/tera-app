@@ -115,6 +115,13 @@
   background:#444;
 }
 /********************************************/
+/****************ANIMATIONS******************/
+.debugFade{
+  animation: fadeOut 2s;
+  animation-delay: 10s;
+  animation-fill-mode: forwards;
+}
+/********************************************/
 /*****************KEYFRAMES******************/
 @keyframes fadeOut {
   from {opacity: 1;}
