@@ -224,15 +224,17 @@ export class AppComponent {
 
     this.createStream();
 
-    window.localStorage.setItem("ip", this.gUrl); //Save IP
+    window.localStorage.setItem("ip", this.ipCurrent); //Save IP
+    window.localStorage.setItem("port", this.portCurrent); //Save Port
   }
   public loadIP(): void{
     if(window.localStorage){
-      this.gUrl = window.localStorage.getItem("ip"); //Get Last IP
+      this.gUrl = window.localStorage.getItem("ip")+window.localStorage.getItem("port"); //Get Last IP
     }else{
       this.gUrl = "192.168.0.102:80";
     }
-    this.ipCurrent = window.localStorage.getItem("ip");
+    this.ipCurrent = window.localStorage.getItem("ip").replace(/:.*$/,"");
+    this.portCurrent = window.localStorage.getItem("port");
 
     this.createStream();
   }//*/
