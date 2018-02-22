@@ -44,9 +44,8 @@ export class AppComponent {
   public socketMsg:any;
   public pSocketMsg:any;
   //////////////////////*CONTROL*/
-  @ViewChild("arrowI") arrowI: ElementRef;
-  @ViewChild("arrowD") arrowD: ElementRef;
-  @ViewChild("debugButton") debugButton: ElementRef;
+  @ViewChild("arrows") arrows:ElementRef;
+  @ViewChild("ipBut") ipBut:ElementRef;
 
   //////////////////////////////////////
   /*ESCENAS*/
@@ -164,21 +163,18 @@ export class AppComponent {
     this.pSocketMsg = this.socketMsg;
   }
 
-  public ngAfterViewInit(): void{
-    this.renderer.listen("document", "touchstart", () => {
-      this.renderer.removeClass(this.arrowI.nativeElement, "debugFade");
-      this.renderer.removeClass(this.arrowD.nativeElement, "debugFade");
-      this.renderer.removeClass(this.debugButton.nativeElement, "debugFade");
-      void this.arrowI.nativeElement.offsetWidth;
-      void this.arrowD.nativeElement.offsetWidth;
-      void this.debugButton.nativeElement.offsetWidth;
-      this.renderer.addClass(this.arrowI.nativeElement, "debugFade");
-      this.renderer.addClass(this.arrowD.nativeElement, "debugFade");
-      this.renderer.addClass(this.debugButton.nativeElement, "debugFade");
-    });
+  /*Funciones Tera*/
+  public fadeConfig(){
+    let _this = this;
+    this.arrows.nativeElement.style.animation = "none";
+    this.ipBut.nativeElement.style.animation = "none";
+
+    setTimeout(function(){
+      _this.arrows.nativeElement.style.animation = "";
+      _this.ipBut.nativeElement.style.animation = "";
+    }, 10);
   }
 
-  /*Funciones Tera*/
   public createStream(): void{
     let _this = this;
     if(this.intervalStream){
