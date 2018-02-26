@@ -106,11 +106,30 @@ export class AppComponent {
           };
 
     	    delegate.didRangeBeaconsInRegion = function (pluginResult) {
+              let dis = 100;
+              let index = 0;
     	        _this.beacons = pluginResult.beacons;
               if(_this.beacons.length > 0){
                 for (let i = 0; i < _this.beacons.length; i++) {
-                  console.log(_this.beacons[i].accuracy, _this.beacons[i].major, _this.beacons[i].minor);
+                  if(_this.beacons[i].accuracy < dis){
+                    dis = _this.beacons[i].accuracy;
+                    index = i;
+                  }
                 }
+                //CAMBIAR ESCENAS
+                if(_this.beacons[index].major == 39 && _this.beacons[index].minor == 20800 &&
+                  _this.beacons[index].accuracy < 2 && _this.sce01 !== true){
+                  _this.escena1();
+                }
+                if(_this.beacons[index].major == 112 && _this.beacons[index].minor == 18157 &&
+                  _this.beacons[index].accuracy < 2 && _this.sce02 !== true){
+                  _this.escena2();
+                }
+                if(_this.beacons[index].major == 39 && _this.beacons[index].minor == 21900 &&
+                  _this.beacons[index].accuracy < 2 && _this.sce03 !== true){
+                  _this.escena3();
+                }
+                //FIN CAMBIAR ESCENAS
               }
     	    };
 
@@ -137,22 +156,6 @@ export class AppComponent {
     }, 2000);
     //END WifiWizard*/
     //////////////////////////////////////////////////////////////
-
-    if(this.sce01){
-      this.escena1();
-    }else if(this.sce02){
-      this.escena2();
-    }else if(this.sce03){
-      this.escena3();
-    }else if(this.sce04){
-      this.escena4();
-    }else if(this.sce05){
-      this.escena5();
-    }else if(this.sce06){
-      this.escena6();
-    }else{
-      this.escena1();
-    }
   }
 
   public ngDoCheck(): void{
@@ -259,6 +262,7 @@ export class AppComponent {
   public escena1(): void{
     //Escena
     this.nEscena = 1;
+    this.sce01 = true;
     //Cam1
     this.createStream();
     //Audio
@@ -271,6 +275,7 @@ export class AppComponent {
   public escena2(): void{
     //Escena
     this.nEscena = 2;
+    this.sce02 = true;
     //Cam1
     this.createStream();
     //Audio
@@ -283,6 +288,7 @@ export class AppComponent {
   public escena3(): void{
     //Escena
     this.nEscena = 3;
+    this.sce03 = true;
     //Cam1
     this.createStream();
     //Audio
@@ -295,6 +301,7 @@ export class AppComponent {
   public escena4(): void{
     //Escena
     this.nEscena = 4;
+    this.sce04 = true;
     //Cam1
     this.createStream();
     //Audio
@@ -307,6 +314,7 @@ export class AppComponent {
   public escena5(): void{
     //Escena
     this.nEscena = 5;
+    this.sce05 = true;
     //Cam1
     this.createStream();
     //Audio
@@ -319,6 +327,7 @@ export class AppComponent {
   public escena6(): void{
     //Escena
     this.nEscena = 6;
+    this.sce06 = true;
     //Cam1
     this.createStream();
     //Audio

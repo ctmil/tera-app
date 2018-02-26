@@ -7,27 +7,10 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-device-motion": {
-      "PACKAGE_NAME": "io.cordova.teraapp"
-    },
-    "cordova-plugin-powermanagement": {
-      "PACKAGE_NAME": "io.cordova.teraapp"
-    },
-    "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "io.cordova.teraapp"
-    },
-    "cordova-plugin-crosswalk-webview": {
-      "XWALK_VERSION": "23+",
-      "XWALK_LITEVERSION": "xwalk_core_library_canary:17+",
-      "XWALK_COMMANDLINE": "--disable-pull-to-refresh-effect",
-      "XWALK_MODE": "embedded",
-      "XWALK_MULTIPLEAPK": "true",
+    "com.pylonproducts.wifiwizard": {
       "PACKAGE_NAME": "io.cordova.teraapp"
     },
     "com.unarin.cordova.beacon": {
-      "PACKAGE_NAME": "io.cordova.teraapp"
-    },
-    "com.pylonproducts.wifiwizard": {
       "PACKAGE_NAME": "io.cordova.teraapp"
     }
   },
