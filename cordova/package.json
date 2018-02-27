@@ -14,7 +14,6 @@
     "com.unarin.cordova.beacon": "git+https://github.com/petermetz/cordova-plugin-ibeacon.git",
     "cordova-android": "^6.4.0",
     "cordova-browser": "^4.1.0",
-    "cordova-plugin-crosswalk-webview": "^2.4.0",
     "cordova-plugin-device-motion": "^1.2.5",
     "cordova-plugin-powermanagement": "^1.0.5",
     "cordova-plugin-powermanagement-orig": "git+https://github.com/Viras-/cordova-plugin-powermanagement.git",
@@ -28,13 +27,6 @@
       "cordova-plugin-device-motion": {},
       "cordova-plugin-powermanagement": {},
       "com.pylonproducts.wifiwizard": {},
-      "cordova-plugin-crosswalk-webview": {
-        "XWALK_VERSION": "23+",
-        "XWALK_LITEVERSION": "xwalk_core_library_canary:17+",
-        "XWALK_COMMANDLINE": "--disable-pull-to-refresh-effect",
-        "XWALK_MODE": "embedded",
-        "XWALK_MULTIPLEAPK": "true"
-      },
       "com.unarin.cordova.beacon": {}
     },
     "platforms": [

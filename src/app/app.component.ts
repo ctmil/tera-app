@@ -89,7 +89,7 @@ export class AppComponent {
     }
 
     function onDeviceReady() {
-        _this.loadIP();  //DEBUG
+        //_this.loadIP();  //DEBUG
         window.powermanagement.acquire(); //WeakLock para que la pantalla no se bloquee
         setTimeout(function(){
           _this.device.startWatchAcc(_this.stream); //Cargar Acelerometro de Device
@@ -118,15 +118,15 @@ export class AppComponent {
                 }
                 //CAMBIAR ESCENAS
                 if(_this.beacons[index].major == 112 && _this.beacons[index].minor == 18102 &&
-                  _this.beacons[index].accuracy < 2 && _this.sce01 !== true){
+                  _this.beacons[index].accuracy < 1 && _this.sce01 !== true && _this.nEscena == 1){
                   _this.escena1();
                 }
                 if(_this.beacons[index].major == 158 && _this.beacons[index].minor == 63123 &&
-                  _this.beacons[index].accuracy < 2 && _this.sce02 !== true){
+                  _this.beacons[index].accuracy < 1 && _this.sce02 !== true && _this.nEscena == 1){
                   _this.escena2();
                 }
                 if(_this.beacons[index].major == 39 && _this.beacons[index].minor == 20191 &&
-                  _this.beacons[index].accuracy < 2 && _this.sce03 !== true){
+                  _this.beacons[index].accuracy < 1 && _this.sce03 !== true && _this.nEscena == 2){
                   _this.escena3();
                 }
                 //FIN CAMBIAR ESCENAS
@@ -156,6 +156,7 @@ export class AppComponent {
     }, 2000);
     //END WifiWizard*/
     //////////////////////////////////////////////////////////////
+    this.escena1();
   }
 
   public ngDoCheck(): void{
