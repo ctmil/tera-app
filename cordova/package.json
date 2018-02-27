@@ -12,7 +12,7 @@
   "dependencies": {
     "com.pylonproducts.wifiwizard": "~0.2.11",
     "com.unarin.cordova.beacon": "git+https://github.com/petermetz/cordova-plugin-ibeacon.git",
-    "cordova-android": "git+https://github.com/apache/cordova-android.git",
+    "cordova-android": "^6.4.0",
     "cordova-browser": "^4.1.0",
     "cordova-plugin-crosswalk-webview": "^2.4.0",
     "cordova-plugin-device-motion": "^1.2.5",
@@ -38,7 +38,8 @@
       "com.unarin.cordova.beacon": {}
     },
     "platforms": [
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }
