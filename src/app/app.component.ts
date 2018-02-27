@@ -38,6 +38,7 @@ export class AppComponent {
   public beacons:any = [];
 	public uuid:string = '20cae8a0-a9cf-11e3-a5e2-0800200c9a66';
   public identifier:string = 'TeraBeacon';
+  public beaconScene:any = [100, 100, 100, 100, 100, 100];
   ////////////////////////*WIFI*/
   public wifi:any;
   ///////////////////////*SOCKET-IO*/
@@ -106,28 +107,34 @@ export class AppComponent {
           };
 
     	    delegate.didRangeBeaconsInRegion = function (pluginResult) {
-              let dis = 100;
-              let index = 0;
+              let dist = 100;
+              let index = 1;
     	        _this.beacons = pluginResult.beacons;
               if(_this.beacons.length > 0){
                 for (let i = 0; i < _this.beacons.length; i++) {
-                  if(_this.beacons[i].accuracy < dis){
-                    dis = _this.beacons[i].accuracy;
+                  if(_this.beacons[i].major == 112 &&_this.beacons[i].minor == 18102){
+                    _this.beaconScene[0] = _this.beacons[i].accuracy;
+                  }else if(_this.beacons[i].major == 158 &&_this.beacons[i].minor == 63123){
+                    _this.beaconScene[1] = _this.beacons[i].accuracy;
+                  }else if(_this.beacons[i].major == 39 &&_this.beacons[i].minor == 20191){
+                    _this.beaconScene[2] = _this.beacons[i].accuracy;
+                  }
+                }
+                for (let i = 0; i < _this.beaconScene.length; i++) {
+                  if(_this.beaconScene[i] < dist){
+                    dist = _this.beaconScene[i];
                     index = i;
                   }
                 }
                 //CAMBIAR ESCENAS
-                if(_this.beacons[index].major == 112 && _this.beacons[index].minor == 18102 &&
-                  _this.beacons[index].accuracy < 1 && _this.sce01 !== true && _this.nEscena == 1){
-                  _this.escena1();
-                }
-                if(_this.beacons[index].major == 158 && _this.beacons[index].minor == 63123 &&
-                  _this.beacons[index].accuracy < 1 && _this.sce02 !== true && _this.nEscena == 1){
-                  _this.escena2();
-                }
-                if(_this.beacons[index].major == 39 && _this.beacons[index].minor == 20191 &&
-                  _this.beacons[index].accuracy < 1 && _this.sce03 !== true && _this.nEscena == 2){
-                  _this.escena3();
+                if(_this.beaconScene[index] < 1){
+                  if(index === 0 && _this.sce01 !== true){  //Escena 1
+                    _this.escena1();
+                  }else if(index === 1 && _this.sce02 !== true){  //Escena 2
+                    _this.escena2();
+                  }else if(index === 2 && _this.sce03 !== true){ //Escena 3
+                    _this.escena3();
+                  }
                 }
                 //FIN CAMBIAR ESCENAS
               }
