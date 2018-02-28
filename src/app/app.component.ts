@@ -118,6 +118,12 @@ export class AppComponent {
                     _this.beaconScene[1] = _this.beacons[i].accuracy;
                   }else if(_this.beacons[i].major == 39 &&_this.beacons[i].minor == 20191){
                     _this.beaconScene[2] = _this.beacons[i].accuracy;
+                  }else if(_this.beacons[i].major == 39 &&_this.beacons[i].minor == 21900){
+                    _this.beaconScene[3] = _this.beacons[i].accuracy;
+                  }else if(_this.beacons[i].major == 39 &&_this.beacons[i].minor == 20800){
+                    _this.beaconScene[4] = _this.beacons[i].accuracy;
+                  }else if(_this.beacons[i].major == 112 &&_this.beacons[i].minor == 18157){
+                    _this.beaconScene[5] = _this.beacons[i].accuracy;
                   }
                 }
                 for (let i = 0; i < _this.beaconScene.length; i++) {
@@ -134,6 +140,12 @@ export class AppComponent {
                     _this.escena2();
                   }else if(index === 2 && _this.sce03 !== true){ //Escena 3
                     _this.escena3();
+                  }else if(index === 3 && _this.sce04 !== true){ //Escena 4
+                    _this.escena4();
+                  }else if(index === 4 && _this.sce05 !== true){ //Escena 5
+                    _this.escena5();
+                  }else if(index === 5 && _this.sce06 !== true){ //Escena 6
+                    _this.escena6();
                   }
                 }
                 //FIN CAMBIAR ESCENAS
@@ -163,7 +175,7 @@ export class AppComponent {
     }, 2000);
     //END WifiWizard*/
     //////////////////////////////////////////////////////////////
-    this.escena1();
+    this.escena1(); // Iniciar Escenas con la Escena Tutorial
   }
 
   public ngDoCheck(): void{
@@ -260,6 +272,10 @@ export class AppComponent {
       this.index = 2;
     }
 
+    if(this.nEscena == 1){
+      this.escena1();
+    }
+
     this.createStream();
   }
 
@@ -274,7 +290,11 @@ export class AppComponent {
     //Cam1
     this.createStream();
     //Audio
-    this.loopAudio(3, 'assets/audio/tv_test_01.mp3');
+    if(this.index == 2){
+      this.loopAudio(0, 'assets/audio/escena_01.mp3');
+    }else{
+      this.loopAudio(0, 'assets/audio/none.mp3');
+    }
     //Imagen
 
     //Texto
@@ -287,7 +307,7 @@ export class AppComponent {
     //Cam1
     this.createStream();
     //Audio
-    this.loopAudio(3, 'assets/audio/tv_test_02.mp3');
+    this.loopAudio(0, 'assets/escena_02.mp3');
     //Imagen
 
     //Texto
@@ -300,7 +320,7 @@ export class AppComponent {
     //Cam1
     this.createStream();
     //Audio
-    this.loopAudio(3, 'assets/audio/tv_test_03.mp3');
+    //this.loopAudio(3, 'assets/audio/tv_test_03.mp3');
     //Imagen
 
     //Texto
@@ -313,7 +333,7 @@ export class AppComponent {
     //Cam1
     this.createStream();
     //Audio
-    this.loopAudio(1, 'assets/audio/tv_test_04.mp3');
+    //this.loopAudio(1, 'assets/audio/tv_test_04.mp3');
     //Imagen
 
     //Texto
@@ -326,7 +346,7 @@ export class AppComponent {
     //Cam1
     this.createStream();
     //Audio
-    this.loopAudio(0, 'assets/audio/vamos-a-experimentar-un-minuto-de-introspeccion.mp3');
+    this.loopAudio(0, 'assets/audio/escena_05.mp3');
     //Imagen
 
     //Texto
@@ -339,7 +359,7 @@ export class AppComponent {
     //Cam1
     this.createStream();
     //Audio
-    this.loopAudio(1, 'assets/audio/nos-podemos-arreglar-con-lo-que-hay-ahi.mp3');
+    //this.loopAudio(1, 'assets/audio/nos-podemos-arreglar-con-lo-que-hay-ahi.mp3');
     //Imagen
 
     //Texto
