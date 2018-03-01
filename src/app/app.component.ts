@@ -27,10 +27,14 @@ export class AppComponent {
   ///////////////////////////*AUDIO*/
   @ViewChild("audio") audio: ElementRef;
   public audioUrl: SafeUrl;
+  public audioLoop: any;
   //////////////////////////*IMAGEN*/
   @ViewChild("imagen") imagen: ElementRef;
   public imgUrl: SafeUrl;
   public showImg:boolean = false;
+  @ViewChild("video") video: ElementRef;
+  public videoUrl: SafeUrl;
+  public showVideo: boolean = false;
   /////////////////////////*TEXTO*/
   public textoContenido:string = '';
   public showText:boolean = false;
@@ -65,11 +69,12 @@ export class AppComponent {
   ///////////////////////////
   public index:number = 1;
   public loop;
-  public gUrl:string = "192.168.0.102:80";
-  public ipCurrent:string = "192.168.0.102";
+  public gUrl:string = "192.168.0.111:80";
+  public ipCurrent:string = "192.168.0.111";
   public portCurrent:string = "80";
   ///////////////////////////LISTENER//
   public audioLoopListener: () => void;
+  public videoLoopListener: () => void;
 
   constructor(private sanitizer: DomSanitizer, private renderer: Renderer2, public device: DeviceService, public socket: SocketService){
     /*-IMAGEN DEFAULT-*/
@@ -93,7 +98,7 @@ export class AppComponent {
         //_this.loadIP();  //DEBUG
         window.powermanagement.acquire(); //WeakLock para que la pantalla no se bloquee
         setTimeout(function(){
-          _this.device.startWatchAcc(_this.stream); //Cargar Acelerometro de Device
+          _this.device.startWatchAcc(_this.stream, _this.video); //Cargar Acelerometro de Device
 
           let beaconRegion = new cordova.plugins.locationManager.BeaconRegion(_this.identifier, _this.uuid);
     	    let delegate = new cordova.plugins.locationManager.Delegate();
@@ -221,7 +226,7 @@ export class AppComponent {
     if(this.audioLoopListener){
       this.audioLoopListener();
     }
-    this.audioUrl = this.sanitizer.bypassSecurityTrustUrl(s);
+    this.audioUrl = this.sanitizer.bypassSecurityTrustUrl('http://'+this.gUrl+s);
     this.audio.nativeElement.autoplay = true;
     this.audio.nativeElement.play();
     let loopLimit = n;
@@ -235,6 +240,22 @@ export class AppComponent {
         this.audio.nativeElement.autoplay = false;
         this.audioLoopListener();
       }
+    });
+  }
+
+  public makeVideo(s:string){
+    if(this.videoLoopListener){
+      this.videoLoopListener();
+    }
+    this.videoUrl = this.sanitizer.bypassSecurityTrustUrl('http://'+this.gUrl+s);
+    this.video.nativeElement.autoplay = true;
+    this.video.nativeElement.play();
+
+    this.videoLoopListener = this.renderer.listen(this.video.nativeElement, "ended", () => {
+        this.showVideo = true;
+        this.video.nativeElement.pause();
+        this.video.nativeElement.autoplay = false;
+        this.videoLoopListener();
     });
   }
 
@@ -268,8 +289,8 @@ export class AppComponent {
 
     if(this.index < 1){
       this.index = 1;
-    }else if(this.index > 2){
-      this.index = 2;
+    }else if(this.index > 3){
+      this.index = 3;
     }
 
     if(this.nEscena == 1){
@@ -285,83 +306,127 @@ export class AppComponent {
 
   public escena1(): void{
     //Escena
+    let this_ = this;
     this.nEscena = 1;
     this.sce01 = true;
+    this.showVideo = true;
+    clearTimeout(this.audioLoop);
     //Cam1
     this.createStream();
     //Audio
     if(this.index == 2){
-      this.loopAudio(0, 'assets/audio/escena_01.mp3');
+      this.showVideo = true;
+      this.loopAudio(20, '/e1audio1.mp3');
+      this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e1audio2.mp3');}, 60000);
+      this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e1audio3.mp3');}, 120000);
+      this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e1audio4.mp3');}, 180000);
+      this.audioLoop = setTimeout(function(){this_.loopAudio(50, '/e1audio5.mp3');}, 240000);
     }else{
-      this.loopAudio(0, 'assets/audio/none.mp3');
+      this.showVideo = false;
+      this.loopAudio(0, '/none.mp3');
+      this.makeVideo("/e1video1.mp4");
     }
-    //Imagen
-
     //Texto
     this.textoContenido = "Escena 1";
   }
   public escena2(): void{
     //Escena
+    let this_ = this;
     this.nEscena = 2;
     this.sce02 = true;
+    this.index = 1;
+    this.showVideo = true;
+    clearTimeout(this.audioLoop);
     //Cam1
     this.createStream();
     //Audio
-    this.loopAudio(0, 'assets/escena_02.mp3');
-    //Imagen
-
+    this.loopAudio(20, '/e2audio1.mp3');
+    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e2audio2.mp3');}, 60000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e2audio3.mp3');}, 120000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e2audio4.mp3');}, 180000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(50, '/e2audio5.mp3');}, 240000);
     //Texto
     this.textoContenido = "Escena 2";
   }
   public escena3(): void{
     //Escena
+    let this_ = this;
     this.nEscena = 3;
     this.sce03 = true;
+    this.index = 1;
+    this.showVideo = true;
+    clearTimeout(this.audioLoop);
     //Cam1
     this.createStream();
     //Audio
-    //this.loopAudio(3, 'assets/audio/tv_test_03.mp3');
-    //Imagen
-
+    this.loopAudio(20, '/e3audio1.mp3');
+    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e3audio2.mp3');}, 60000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e3audio3.mp3');}, 120000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e3audio4.mp3');}, 180000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(50, '/e3audio5.mp3');}, 240000);
     //Texto
     this.textoContenido = "Escena 3";
   }
   public escena4(): void{
     //Escena
+    let this_ = this;
     this.nEscena = 4;
     this.sce04 = true;
+    this.showVideo = false;
+    clearTimeout(this.audioLoop);
     //Cam1
     this.createStream();
-    //Audio
-    //this.loopAudio(1, 'assets/audio/tv_test_04.mp3');
-    //Imagen
 
+    if(this.index == 2){
+      this.showVideo = true;
+      this.loopAudio(20, '/e4audio1.mp3');
+      this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e4audio2.mp3');}, 60000);
+      this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e4audio3.mp3');}, 120000);
+      this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e4audio4.mp3');}, 180000);
+      this.audioLoop = setTimeout(function(){this_.loopAudio(50, '/e4audio5.mp3');}, 240000);
+    }else{
+      this.showVideo = false;
+      this.loopAudio(0, '/none.mp3');
+      this.makeVideo("/e4video1.mp4");
+    }
     //Texto
     this.textoContenido = "Escena 4";
   }
   public escena5(): void{
     //Escena
+    let this_ = this;
     this.nEscena = 5;
     this.sce05 = true;
+    this.index = 1;
+    this.showVideo = true;
+    clearTimeout(this.audioLoop);
     //Cam1
     this.createStream();
     //Audio
-    this.loopAudio(0, 'assets/audio/escena_05.mp3');
-    //Imagen
-
+    this.loopAudio(20, '/e5audio1.mp3');
+    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e5audio2.mp3');}, 60000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e5audio3.mp3');}, 120000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e5audio4.mp3');}, 180000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(50, '/e5audio5.mp3');}, 240000);
     //Texto
     this.textoContenido = "Escena 5";
   }
   public escena6(): void{
     //Escena
+    let this_ = this;
     this.nEscena = 6;
     this.sce06 = true;
+    this.index = 1;
+    this.showVideo = true;
+    clearTimeout(this.audioLoop);
     //Cam1
     this.createStream();
     //Audio
-    //this.loopAudio(1, 'assets/audio/nos-podemos-arreglar-con-lo-que-hay-ahi.mp3');
-    //Imagen
-
+    this.loopAudio(20, '/e6audio1.mp3');
+    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e6audio2.mp3');}, 60000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e6audio3.mp3');}, 120000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e6audio4.mp3');}, 180000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(50, '/e6audio5.mp3');}, 240000);
     //Texto
     this.textoContenido = "Escena 6";
   }

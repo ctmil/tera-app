@@ -3,6 +3,7 @@ Streaming Object
 -->
 <div #stream id="stream" [style.background]="url" [style.background-size]="c" (click)="fadeConfig();" [hidden]="showStream">
 </div>
+<video #video id="stream" [src]="videoUrl" autoplay (click)="fadeConfig();" [hidden]="showVideo" webkit-playsinline playsinline></video>
 
 <!--
 Layers
