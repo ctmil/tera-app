@@ -8,11 +8,11 @@ Streaming Object
 <!--
 Layers
 -->
-<img #imagen [src]="imgUrl" [hidden]="showImg">
+<img #imagen [src]="imgUrl" [hidden]="showImg" (click)="fadeConfig();">
 
 <audio #audio [src]="audioUrl" type="audio/mpeg"></audio>
 
-<div #texto class="tera-text" [hidden]="showText">
+<div #texto class="tera-text" [hidden]="showText" (click)="fadeConfig();">
   {{textoContenido}}
 </div>
 
@@ -20,11 +20,11 @@ Layers
 Interface
 -->
 <div #arrows class="debugFade">
-  <div (click)="switchStream(-1);" class="f" id="izq">
+  <div (click)="switchStream(-1);fadeConfig();" class="f" id="izq">
     <span class="arrow">&#60;</span>
   </div>
 
-  <div (click)="switchStream(1);" class="f" id="der">
+  <div (click)="switchStream(1);fadeConfig();" class="f" id="der">
     <span class="arrow">&#62;</span>
   </div>
 </div>
@@ -53,6 +53,7 @@ DEBUG Start
   <p>{{beaconScene[3]}}</p>
   <p>{{beaconScene[4]}}</p>
   <p>{{beaconScene[5]}}</p>
+  <p>Index: {{index}}</p>
 </div>
 <!--
 DEBUG End

@@ -32,6 +32,7 @@ export class AppComponent {
   @ViewChild("imagen") imagen: ElementRef;
   public imgUrl: SafeUrl;
   public showImg:boolean = false;
+  //////////////////////////*VIDEO*/
   @ViewChild("video") video: ElementRef;
   public videoUrl: SafeUrl;
   public showVideo: boolean = false;
@@ -39,10 +40,10 @@ export class AppComponent {
   public textoContenido:string = '';
   public showText:boolean = false;
   /////////////////////////*BEACON*/
-  public beacons:any = [];
 	public uuid:string = '20cae8a0-a9cf-11e3-a5e2-0800200c9a66';
   public identifier:string = 'TeraBeacon';
   public beaconScene:any = [100, 100, 100, 100, 100, 100];
+  public beaconState:string = 'YB';
   ////////////////////////*WIFI*/
   public wifi:any;
   ///////////////////////*SOCKET-IO*/
@@ -75,6 +76,15 @@ export class AppComponent {
   ///////////////////////////LISTENER//
   public audioLoopListener: () => void;
   public videoLoopListener: () => void;
+  public escena3Interval:any;
+  //////////////////////////*TIMERS*/
+  public timer01:any;
+  public timer02:any;
+  public timer03:any;
+  public timer04:any;
+  public timer05:any;
+  public timer06:any;
+  public allTimers:any = [1, 600000, 600000*2, 600000*3, 600000*4, 600000*5];
 
   constructor(private sanitizer: DomSanitizer, private renderer: Renderer2, public device: DeviceService, public socket: SocketService){
     /*-IMAGEN DEFAULT-*/
@@ -114,21 +124,33 @@ export class AppComponent {
     	    delegate.didRangeBeaconsInRegion = function (pluginResult) {
               let dist = 100;
               let index = 1;
-    	        _this.beacons = pluginResult.beacons;
-              if(_this.beacons.length > 0){
-                for (let i = 0; i < _this.beacons.length; i++) {
-                  if(_this.beacons[i].major == 112 &&_this.beacons[i].minor == 18102){
-                    _this.beaconScene[0] = _this.beacons[i].accuracy;
-                  }else if(_this.beacons[i].major == 158 &&_this.beacons[i].minor == 63123){
-                    _this.beaconScene[1] = _this.beacons[i].accuracy;
-                  }else if(_this.beacons[i].major == 39 &&_this.beacons[i].minor == 20191){
-                    _this.beaconScene[2] = _this.beacons[i].accuracy;
-                  }else if(_this.beacons[i].major == 39 &&_this.beacons[i].minor == 21900){
-                    _this.beaconScene[3] = _this.beacons[i].accuracy;
-                  }else if(_this.beacons[i].major == 39 &&_this.beacons[i].minor == 20800){
-                    _this.beaconScene[4] = _this.beacons[i].accuracy;
-                  }else if(_this.beacons[i].major == 112 &&_this.beacons[i].minor == 18157){
-                    _this.beaconScene[5] = _this.beacons[i].accuracy;
+              let minDist = 1;
+              if(cordova.platformId === 'android'){
+                minDist = 1.1;
+              }else{
+                minDist = 3;
+              }
+    	        let beacons = pluginResult.beacons;
+              if(beacons.length > 0){ //START BEACONS
+                for (let i = 0; i < beacons.length; i++) {
+                  let realDis = 100;
+                  if(beacons[i].accuracy == -1){
+                    realDis = 100;
+                  }else{
+                    realDis = beacons[i].accuracy;
+                  }
+                  if(beacons[i].major == 112 && beacons[i].minor == 18102){
+                    _this.beaconScene[0] = realDis;
+                  }else if(beacons[i].major == 158 && beacons[i].minor == 63123){
+                    _this.beaconScene[1] = realDis;
+                  }else if(beacons[i].major == 39 && beacons[i].minor == 20191){
+                    _this.beaconScene[2] = realDis;
+                  }else if(beacons[i].major == 39 && beacons[i].minor == 21900){
+                    _this.beaconScene[3] = realDis;
+                  }else if(beacons[i].major == 39 && beacons[i].minor == 20800){
+                    _this.beaconScene[4] = realDis;
+                  }else if(beacons[i].major == 112 && beacons[i].minor == 18157){
+                    _this.beaconScene[5] = realDis;
                   }
                 }
                 for (let i = 0; i < _this.beaconScene.length; i++) {
@@ -138,23 +160,23 @@ export class AppComponent {
                   }
                 }
                 //CAMBIAR ESCENAS
-                if(_this.beaconScene[index] < 1){
+                if(_this.beaconScene[index] <= minDist && _this.beaconScene[index] !== -1){  //Truco para no detectar Beacon en -1
                   if(index === 0 && _this.sce01 !== true){  //Escena 1
                     _this.escena1();
-                  }else if(index === 1 && _this.sce02 !== true){  //Escena 2
+                  }else if(index === 1 && _this.sce02 !== true && _this.nEscena == 1){  //Escena 2
                     _this.escena2();
-                  }else if(index === 2 && _this.sce03 !== true){ //Escena 3
+                  }else if(index === 2 && _this.sce03 !== true && _this.nEscena == 2){ //Escena 3
                     _this.escena3();
-                  }else if(index === 3 && _this.sce04 !== true){ //Escena 4
+                  }else if(index === 3 && _this.sce04 !== true && _this.nEscena == 3){ //Escena 4
                     _this.escena4();
-                  }else if(index === 4 && _this.sce05 !== true){ //Escena 5
+                  }else if(index === 4 && _this.sce05 !== true && _this.nEscena == 4){ //Escena 5
                     _this.escena5();
-                  }else if(index === 5 && _this.sce06 !== true){ //Escena 6
+                  }else if(index === 5 && _this.sce06 !== true && _this.nEscena == 5){ //Escena 6
                     _this.escena6();
                   }
                 }
                 //FIN CAMBIAR ESCENAS
-              }
+              }//FIN BEACONS
     	    };
 
     	    cordova.plugins.locationManager.setDelegate(delegate);
@@ -162,7 +184,7 @@ export class AppComponent {
           cordova.plugins.locationManager.requestWhenInUseAuthorization();
 
     	    cordova.plugins.locationManager.startRangingBeaconsInRegion(beaconRegion)
-    	        .fail(function(e) {console.log(e);})
+    	        .fail(function(e) {alert(e);_this.beaconState='NB';})
     	        .done();
         }, 1000); //Espera un segundo antes de ver el Acc y iBeacons
     }
@@ -181,6 +203,7 @@ export class AppComponent {
     //END WifiWizard*/
     //////////////////////////////////////////////////////////////
     this.escena1(); // Iniciar Escenas con la Escena Tutorial
+    this.delayScenes(); //Delay Escenas
   }
 
   public ngDoCheck(): void{
@@ -188,7 +211,11 @@ export class AppComponent {
       //Actualizar solo cuando el valor de socketMsg sea nuevo
       console.log(this.socketMsg);
     }
-    this.pSocketMsg = this.socketMsg;
+    //Enviar mensaje de Status
+    this.socket.sendMessage(""+this.nEscena+","+this.beaconState+","+
+    this.beaconScene[0]+","+this.beaconScene[1]+","+this.beaconScene[2]+","+
+    this.beaconScene[3]+","+this.beaconScene[4]+","+this.beaconScene[5]);
+    this.pSocketMsg = this.socketMsg; //Guardar dato anterior de SocketIO
   }
 
   /*Funciones Tera*/
@@ -201,6 +228,33 @@ export class AppComponent {
       _this.arrows.nativeElement.style.animation = "";
       _this.ipBut.nativeElement.style.animation = "";
     }, 10);
+  }
+
+  public delayScenes(){
+    let this_ = this;
+    this.timer01 = setTimeout(function(){
+      if(this_.sce01 !== true){this_.escena1();}
+    }, this.allTimers[0]);
+    this.timer02 = setTimeout(function(){
+      clearTimeout(this_.timer01);
+      if(this_.sce02 !== true){this_.escena2();}
+    }, this.allTimers[1]);
+    this.timer03 = setTimeout(function(){
+      clearTimeout(this_.timer02);
+      if(this_.sce03 !== true){this_.escena3();}
+    }, this.allTimers[2]);
+    this.timer04 = setTimeout(function(){
+      clearTimeout(this_.timer03);
+      if(this_.sce04 !== true){this_.escena4();}
+    }, this.allTimers[3]);
+    this.timer05 = setTimeout(function(){
+      clearTimeout(this_.timer04);
+      if(this_.sce05 !== true){this_.escena5();}
+    }, this.allTimers[4]);
+    this.timer06 = setTimeout(function(){
+      clearTimeout(this_.timer05);
+      if(this_.sce06 !== true){this_.escena6();}
+    }, this.allTimers[5]);
   }
 
   public createStream(): void{
@@ -309,18 +363,19 @@ export class AppComponent {
     let this_ = this;
     this.nEscena = 1;
     this.sce01 = true;
+    this.index = 1;
     this.showVideo = true;
     clearTimeout(this.audioLoop);
-    //Cam1
+    //Cam
     this.createStream();
     //Audio
     if(this.index == 2){
       this.showVideo = true;
-      this.loopAudio(20, '/e1audio1.mp3');
-      this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e1audio2.mp3');}, 60000);
-      this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e1audio3.mp3');}, 120000);
-      this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e1audio4.mp3');}, 180000);
-      this.audioLoop = setTimeout(function(){this_.loopAudio(50, '/e1audio5.mp3');}, 240000);
+      this.loopAudio(6, '/e1audio1.mp3');
+      this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e1audio2.mp3');}, 60000);
+      this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e1audio3.mp3');}, 120000);
+      this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e1audio4.mp3');}, 180000);
+      this.audioLoop = setTimeout(function(){this_.loopAudio(10, '/e1audio5.mp3');}, 240000);
     }else{
       this.showVideo = false;
       this.loopAudio(0, '/none.mp3');
@@ -337,14 +392,14 @@ export class AppComponent {
     this.index = 1;
     this.showVideo = true;
     clearTimeout(this.audioLoop);
-    //Cam1
+    //Cam
     this.createStream();
     //Audio
-    this.loopAudio(20, '/e2audio1.mp3');
-    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e2audio2.mp3');}, 60000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e2audio3.mp3');}, 120000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e2audio4.mp3');}, 180000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(50, '/e2audio5.mp3');}, 240000);
+    this.loopAudio(6, '/e2audio1.mp3');
+    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e2audio2.mp3');}, 60000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e2audio3.mp3');}, 120000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e2audio4.mp3');}, 180000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(10, '/e2audio5.mp3');}, 240000);
     //Texto
     this.textoContenido = "Escena 2";
   }
@@ -356,14 +411,26 @@ export class AppComponent {
     this.index = 1;
     this.showVideo = true;
     clearTimeout(this.audioLoop);
-    //Cam1
+    //Cam
     this.createStream();
+    this.escena3Interval = setInterval(function(){
+      if(this_.beaconScene[2] > 0 && this_.beaconScene[2] < 1.4){
+        this_.index = 1;
+        this_.createStream();
+      }else if(this_.beaconScene[2] > 1.4 && this_.beaconScene[2] < 1.65){
+        this_.index = 2;
+        this_.createStream();
+      }else if(this_.beaconScene[2] > 1.65){
+        this_.index = 3;
+        this_.createStream();
+      }
+    }, 100);
     //Audio
-    this.loopAudio(20, '/e3audio1.mp3');
-    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e3audio2.mp3');}, 60000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e3audio3.mp3');}, 120000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e3audio4.mp3');}, 180000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(50, '/e3audio5.mp3');}, 240000);
+    this.loopAudio(6, '/e3audio1.mp3');
+    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e3audio2.mp3');}, 60000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e3audio3.mp3');}, 120000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e3audio4.mp3');}, 180000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(10, '/e3audio5.mp3');}, 240000);
     //Texto
     this.textoContenido = "Escena 3";
   }
@@ -372,18 +439,20 @@ export class AppComponent {
     let this_ = this;
     this.nEscena = 4;
     this.sce04 = true;
+    this.index = 1;
     this.showVideo = false;
     clearTimeout(this.audioLoop);
-    //Cam1
+    clearInterval(this.escena3Interval);
+    //Cam
     this.createStream();
 
     if(this.index == 2){
       this.showVideo = true;
-      this.loopAudio(20, '/e4audio1.mp3');
-      this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e4audio2.mp3');}, 60000);
-      this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e4audio3.mp3');}, 120000);
-      this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e4audio4.mp3');}, 180000);
-      this.audioLoop = setTimeout(function(){this_.loopAudio(50, '/e4audio5.mp3');}, 240000);
+      this.loopAudio(6, '/e4audio1.mp3');
+      this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e4audio2.mp3');}, 60000);
+      this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e4audio3.mp3');}, 120000);
+      this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e4audio4.mp3');}, 180000);
+      this.audioLoop = setTimeout(function(){this_.loopAudio(10, '/e4audio5.mp3');}, 240000);
     }else{
       this.showVideo = false;
       this.loopAudio(0, '/none.mp3');
@@ -400,14 +469,14 @@ export class AppComponent {
     this.index = 1;
     this.showVideo = true;
     clearTimeout(this.audioLoop);
-    //Cam1
+    //Cam
     this.createStream();
     //Audio
-    this.loopAudio(20, '/e5audio1.mp3');
-    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e5audio2.mp3');}, 60000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e5audio3.mp3');}, 120000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e5audio4.mp3');}, 180000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(50, '/e5audio5.mp3');}, 240000);
+    this.loopAudio(6, '/e5audio1.mp3');
+    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e5audio2.mp3');}, 60000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e5audio3.mp3');}, 120000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e5audio4.mp3');}, 180000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(10, '/e5audio5.mp3');}, 240000);
     //Texto
     this.textoContenido = "Escena 5";
   }
@@ -419,14 +488,14 @@ export class AppComponent {
     this.index = 1;
     this.showVideo = true;
     clearTimeout(this.audioLoop);
-    //Cam1
+    //Cam
     this.createStream();
     //Audio
-    this.loopAudio(20, '/e6audio1.mp3');
-    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e6audio2.mp3');}, 60000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e6audio3.mp3');}, 120000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(20, '/e6audio4.mp3');}, 180000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(50, '/e6audio5.mp3');}, 240000);
+    this.loopAudio(6, '/e6audio1.mp3');
+    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e6audio2.mp3');}, 60000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e6audio3.mp3');}, 120000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e6audio4.mp3');}, 180000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(10, '/e6audio5.mp3');}, 240000);
     //Texto
     this.textoContenido = "Escena 6";
   }
