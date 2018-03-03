@@ -8,7 +8,7 @@ Streaming Object
 <!--
 Layers
 -->
-<img #imagen [src]="imgUrl" [hidden]="showImg" (click)="fadeConfig();">
+<img #imagen id="stream" [src]="imgUrl" [hidden]="showImg" (click)="fadeConfig();">
 
 <audio #audio [src]="audioUrl" type="audio/mpeg"></audio>
 
@@ -45,8 +45,9 @@ DEBUG Start
   <a (click)="escena4();">4</a>
   <a (click)="escena5();">5</a>
   <a (click)="escena6();">6</a>
+  <a (click)="escena7();">7</a>
 </div>
-<div style="position:fixed;top:30px;left:200px;color:#fff;">
+<!--div style="position:fixed;top:30px;left:200px;color:#fff;">
   <p>{{beaconScene[0]}}</p>
   <p>{{beaconScene[1]}}</p>
   <p>{{beaconScene[2]}}</p>
@@ -54,7 +55,7 @@ DEBUG Start
   <p>{{beaconScene[4]}}</p>
   <p>{{beaconScene[5]}}</p>
   <p>Index: {{index}}</p>
-</div>
+</div-->
 <!--
 DEBUG End
 -->

@@ -15,6 +15,8 @@
     <preference name="SplashScreenDelay" value="0" />
     <preference name="xwalkMultipleApk" value="false" />
     <preference name="AllowInlineMediaPlayback" value="true" />
+    <preference name="com.unarin.cordova.beacon.android.altbeacon.ForegroundBetweenScanPeriod" value="100" />
+    <preference name="com.unarin.cordova.beacon.android.altbeacon.ForegroundScanPeriod" value="100" />
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="*" />
