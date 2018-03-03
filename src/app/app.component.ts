@@ -307,6 +307,7 @@ export class AppComponent {
 
     this.videoLoopListener = this.renderer.listen(this.video.nativeElement, "ended", () => {
         this.showVideo = true;
+        this.video.nativeElement.currentTime = 0;
         this.video.nativeElement.pause();
         this.video.nativeElement.autoplay = false;
         this.videoLoopListener();
@@ -397,6 +398,8 @@ export class AppComponent {
     clearTimeout(this.audioLoop);
     //Cam
     this.createStream();
+    //Audio
+    this.loopAudio(0, '/e3audio1.mp3');
     //Texto
     this.textoContenido = "Escena 3";
   }
@@ -411,11 +414,11 @@ export class AppComponent {
     //Cam
     this.createStream();
     //Audio
-    this.loopAudio(6, '/e4audio1.mp3');
+    /*this.loopAudio(6, '/e4audio1.mp3');
     this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e4audio2.mp3');}, 60000);
     this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e4audio3.mp3');}, 120000);
     this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e4audio4.mp3');}, 180000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(10, '/e4audio5.mp3');}, 240000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(10, '/e4audio5.mp3');}, 240000);*/
     //Texto
     this.textoContenido = "Escena 4";
   }
@@ -446,11 +449,7 @@ export class AppComponent {
     //Cam
     this.createStream();
     //Audio
-    this.loopAudio(6, '/e6audio1.mp3');
-    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e6audio2.mp3');}, 60000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e6audio3.mp3');}, 120000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e6audio4.mp3');}, 180000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(10, '/e6audio5.mp3');}, 240000);
+
     //Texto
     this.textoContenido = "Escena 6";
   }
@@ -465,11 +464,7 @@ export class AppComponent {
     clearTimeout(this.audioLoop);
     this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('http://'+this.gUrl+'/e7img1.jpg');
     //Audio
-    this.loopAudio(6, '/e7audio1.mp3');
-    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e7audio2.mp3');}, 60000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e7audio3.mp3');}, 120000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e7audio4.mp3');}, 180000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(10, '/e7audio5.mp3');}, 240000);
+
     //Texto
     this.textoContenido = "Escena 7";
   }
