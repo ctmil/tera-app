@@ -70,8 +70,8 @@ export class AppComponent {
   ///////////////////////////
   public index:number = 1;
   public loop;
-  public gUrl:string = "192.168.0.108:80";
-  public ipCurrent:string = "192.168.0.108";
+  public gUrl:string = "192.168.0.125:80";
+  public ipCurrent:string = "192.168.0.125";
   public portCurrent:string = "80";
   ///////////////////////////LISTENER//
   public audioLoopListener: () => void;
