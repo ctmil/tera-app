@@ -434,11 +434,11 @@ export class AppComponent {
     //Cam
     this.createStream();
     //Audio
-    /*this.loopAudio(6, '/e4audio1.mp3');
-    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e4audio2.mp3');}, 60000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e4audio3.mp3');}, 120000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(6, '/e4audio4.mp3');}, 180000);
-    this.audioLoop = setTimeout(function(){this_.loopAudio(10, '/e4audio5.mp3');}, 240000);*/
+    this.loopAudio(99, '/e4audio1.mp3');
+    this.audioLoop = setTimeout(function(){this_.loopAudio(99, '/e4audio2.mp3');}, 60000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(99, '/e4audio3.mp3');}, 120000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(99, '/e4audio4.mp3');}, 180000);
+    this.audioLoop = setTimeout(function(){this_.loopAudio(99, '/e4audio5.mp3');}, 240000);
     //Texto
     this.textoContenido = "Escena 4";
   }
