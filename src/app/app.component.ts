@@ -455,7 +455,7 @@ export class AppComponent {
     //Cam
     this.createStream();
     //Audio
-    this.loopAudio(99, '/e5audio'+(Math.floor(Math.random()*3))+1+'.mp3');
+    this.loopAudio(99, '/e6audio'+(Math.floor(Math.random()*3)+1)+'.mp3');
     //Texto
     this.textoContenido = "Escena 6";
   }
@@ -472,7 +472,7 @@ export class AppComponent {
     //Imagen
     this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('http://'+this.gUrl+'/e7img1.jpg');
     //Audio
-    this.loopAudio(99, '/e7audio'+(Math.floor(Math.random()*5))+1+'.mp3');
+    this.loopAudio(99, '/e7audio'+(Math.floor(Math.random()*5)+1)+'.mp3');
     this.audioLoop = setTimeout(function(){this_.loopAudio(0, '/none.mp3');}, 60000*3);
     //Texto
     this.textoContenido = "Escena 7";
