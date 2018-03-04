@@ -49,6 +49,7 @@ export class AppComponent {
   ///////////////////////*SOCKET-IO*/
   public socketMsg:any;
   public pSocketMsg:any;
+  public grupo:string = "grupo0";
   //////////////////////*CONTROL*/
   @ViewChild("arrows") arrows:ElementRef;
   @ViewChild("ipBut") ipBut:ElementRef;
@@ -208,10 +209,24 @@ export class AppComponent {
   public ngDoCheck(): void{
     if(this.socketMsg !== this.pSocketMsg){
       //Actualizar solo cuando el valor de socketMsg sea nuevo
-      console.log(this.socketMsg);
+      //Cambio de Escenas
+      if(this.socketMsg === "escena1"){this.escena1();}
+      if(this.socketMsg === "escena2"){this.escena2();}
+      if(this.socketMsg === "escena3"){this.escena3();}
+      if(this.socketMsg === "escena4"){this.escena4();}
+      if(this.socketMsg === "escena5"){this.escena5();}
+      if(this.socketMsg === "escena6"){this.escena6();}
+      if(this.socketMsg === "escena7"){this.escena7();}
+      //Grupo
+      if(this.socketMsg === "group1"){this.grupo="grupo1";}
+      if(this.socketMsg === "group2"){this.grupo="grupo2";}
+      if(this.socketMsg === "group3"){this.grupo="grupo3";}
+      if(this.socketMsg === "group4"){this.grupo="grupo4";}
+      if(this.socketMsg === "group5"){this.grupo="grupo5";}
+      if(this.socketMsg === "group6"){this.grupo="grupo6";}
     }
     //Enviar mensaje de Status
-    this.socket.sendMessage(""+this.nEscena+","+this.beaconState+","+
+    this.socket.sendMessage(""+this.grupo+","+this.nEscena+","+this.beaconState+","+
     this.beaconScene[0]+","+this.beaconScene[1]+","+this.beaconScene[2]+","+
     this.beaconScene[3]+","+this.beaconScene[4]+","+this.beaconScene[5]);
     this.pSocketMsg = this.socketMsg; //Guardar dato anterior de SocketIO
