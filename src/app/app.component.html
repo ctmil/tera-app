@@ -1,30 +1,30 @@
 <!--
 Streaming Object
 -->
-<div #stream id="stream" [style.background]="url" [style.background-size]="c" (click)="fadeConfig();" [hidden]="showStream">
+<div #stream id="stream" [style.background]="url" [style.background-size]="c" [hidden]="showStream">
 </div>
-<video #video id="stream" [src]="videoUrl" autoplay (click)="fadeConfig();" [hidden]="showVideo" webkit-playsinline playsinline></video>
+<video #video id="stream" [src]="videoUrl" autoplay [hidden]="showVideo" webkit-playsinline playsinline></video>
 
 <!--
 Layers
 -->
-<img #imagen id="stream" [src]="imgUrl" [hidden]="showImg" (click)="fadeConfig();">
+<img #imagen class="movImg" id="imagen" [src]="imgUrl" [hidden]="showImg">
 
 <audio #audio [src]="audioUrl" type="audio/mpeg"></audio>
 
-<div #texto class="tera-text" [hidden]="showText" (click)="fadeConfig();">
+<div #texto class="tera-text" [hidden]="showText">
   {{textoContenido}}
 </div>
 
 <!--
 Interface
 -->
-<div #arrows class="debugFade">
-  <div (click)="switchStream(-1);fadeConfig();" class="f" id="izq">
+<div #arrows [hidden]="showArrow">
+  <div (click)="switchStream(-1);" class="f" id="izq">
     <span class="arrow">&#60;</span>
   </div>
 
-  <div (click)="switchStream(1);fadeConfig();" class="f" id="der">
+  <div (click)="switchStream(1);" class="f" id="der">
     <span class="arrow">&#62;</span>
   </div>
 </div>
@@ -32,12 +32,12 @@ Interface
 <!--
 DEBUG Start
 -->
-<a #ipBut (click)="toggle=!toggle;" class="debugButton debugFade debugOff">IP</a>
-<div class="debug_set" *ngIf="toggle">
+<a #ipBut (click)="toggle=!toggle;" class="debugButton">IP</a>
+<!--div class="debug_set" *ngIf="toggle">
   <input #ip type="text" name="" [value]="ipCurrent">
   <input #port type="text" name="" [value]="portCurrent">
   <button (click)="changeIP();" type="button" name="button">OK</button>
-</div>
+</div-->
 <div class="debugFooter" *ngIf="toggle">
   <a (click)="escena1();">1</a>
   <a (click)="escena2();">2</a>
@@ -47,15 +47,6 @@ DEBUG Start
   <a (click)="escena6();">6</a>
   <a (click)="escena7();">7</a>
 </div>
-<!--div style="position:fixed;top:30px;left:200px;color:#fff;">
-  <p>{{beaconScene[0]}}</p>
-  <p>{{beaconScene[1]}}</p>
-  <p>{{beaconScene[2]}}</p>
-  <p>{{beaconScene[3]}}</p>
-  <p>{{beaconScene[4]}}</p>
-  <p>{{beaconScene[5]}}</p>
-  <p>Index: {{index}}</p>
-</div-->
 <!--
 DEBUG End
 -->

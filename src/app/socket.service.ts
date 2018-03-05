@@ -8,14 +8,15 @@ export class SocketService {
 
   constructor(private socket: Socket){}
 
-  getMessage() {
+  getMessage(msg: string) {
       return this.socket
-          .fromEvent<any>("msg")
+          .fromEvent<any>(msg)
           .map(data => data.msg);
   }
 
-  sendMessage(msg: string) {
+  sendMessage(out: string, msg: string) {
       this.socket
-          .emit("msg", msg);
+          .emit(out, msg);
   }
+
 }
