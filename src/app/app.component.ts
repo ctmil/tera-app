@@ -57,12 +57,6 @@ export class AppComponent {
 
   //////////////////////////////////////
   /*ESCENAS*/
-  public sce01:boolean = false;
-  public sce02:boolean = false;
-  public sce03:boolean = false;
-  public sce04:boolean = false;
-  public sce05:boolean = false;
-  public sce06:boolean = false;
   public nEscena:number = 0;
   public idnum:string;
 
@@ -88,10 +82,6 @@ export class AppComponent {
     //Iniciar Dispositivo//
     let _this = this;
     onLoad();
-    //SocketIO//
-    /*_this.socket.getMessage().subscribe(msg => {
-      _this.socketMsg = msg;  //Recibir datos de SocketIO - Corre en Background
-    });*/
 
     function onLoad() {
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -161,7 +151,7 @@ export class AppComponent {
     }
 
     //START WiFiWizard
-    /*setInterval(function(){
+    setInterval(function(){
       WifiWizard.getCurrentSSID(
       function success(a) {
         console.log(a);
@@ -182,7 +172,7 @@ export class AppComponent {
         alert("No está conectado a una Red");
         console.log(a);
       });
-    }, 2000);
+    }, 5000);
     //END WifiWizard*/
     //////////////////////////////////////////////////////////////
 
@@ -388,7 +378,7 @@ export class AppComponent {
     this.loopAudio(0, '/none.mp3');
     this.makeVideo("/e1video1.mp4");
     //Texto
-    this.textoContenido = "Escena 1";
+    this.textoContenido = "";
   }
   public escena2(): void{
     this.nEscena = 2;
@@ -401,9 +391,9 @@ export class AppComponent {
     //Cam
     this.createStream();
     //Audio
-    this.loopAudio(0, '/e2audio2.mp3');
+    this.loopAudio(0, '/e2audio1.mp3');
     //Texto
-    this.textoContenido = "Escena 2";
+    this.textoContenido = "";
   }
   public escena3(): void{
     //Escena
@@ -418,9 +408,9 @@ export class AppComponent {
     //Cam
     this.createStream();
     //Audio
-    this.loopAudio(0, '/e3audio1.mp3');
+    this.loopAudio(0, '/e3audio2.mp3');
     //Texto
-    this.textoContenido = "Escena 3";
+    this.textoContenido = "";
   }
   public escena4(): void{
     //Escena
@@ -445,7 +435,7 @@ export class AppComponent {
     this.audioLoop = setTimeout(function(){if(this_.nEscena == 4){this_.loopAudio(9999, '/e4audio13.mp3');}}, 240000);
     this.audioLoop = setTimeout(function(){if(this_.nEscena == 4){this_.loopAudio(9999, '/e4audio'+this_.getRandom(9, 13)+'.mp3');}}, 360000);
     //Texto
-    this.textoContenido = "Escena 4";
+    this.textoContenido = "";
   }
   public escena5(): void{
     //Escena
@@ -463,7 +453,7 @@ export class AppComponent {
     this.loopAudio(0, '/none.mp3');
     this.makeVideo("/e5video1.mp4");
     //Texto
-    this.textoContenido = "Escena 5";
+    this.textoContenido = "";
   }
   public escena6(): void{
     //Escena
@@ -480,7 +470,7 @@ export class AppComponent {
     //Audio
     this.loopAudio(99, '/e6audio'+this.getRandom(1, 4)+'.mp3');
     //Texto
-    this.textoContenido = "Escena 6";
+    this.textoContenido = "";
   }
   public escena7(): void{
     //Escena
@@ -500,6 +490,6 @@ export class AppComponent {
     this.audioLoop = setTimeout(function(){this_.loopAudio(0, '/none.mp3');}, 180000);
     setTimeout(function(){this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('/assets/none.png');}, 60000*8.5);
     //Texto
-    this.textoContenido = "Escena 7";
+    this.textoContenido = "";
   }
 }
