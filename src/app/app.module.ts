@@ -8,7 +8,6 @@ const config: SocketIoConfig = { url: 'http://192.168.0.125:8988', options: {} }
 
 import { AppComponent } from './app.component';
 import { ToolsService } from './tools.service';
-import { DeviceService } from './device.service';
 import { SocketService } from './socket.service';
 
 @NgModule({
@@ -21,7 +20,7 @@ import { SocketService } from './socket.service';
     HttpModule,
     SocketIoModule.forRoot(config)
   ],
-  providers: [ToolsService, DeviceService, SocketService],
+  providers: [ToolsService, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

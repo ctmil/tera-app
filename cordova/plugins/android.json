@@ -13,9 +13,6 @@
     "com.unarin.cordova.beacon": {
       "PACKAGE_NAME": "io.cordova.teraapp"
     },
-    "cordova-plugin-device-motion": {
-      "PACKAGE_NAME": "io.cordova.teraapp"
-    },
     "cordova-plugin-powermanagement": {
       "PACKAGE_NAME": "io.cordova.teraapp"
     },

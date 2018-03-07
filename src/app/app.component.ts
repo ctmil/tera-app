@@ -1,7 +1,6 @@
 ﻿import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { ToolsService } from './tools.service';
-import { DeviceService } from './device.service';
 import { SocketService } from './socket.service';
 declare var WifiWizard:any;
 declare var navigator:any;
@@ -33,6 +32,9 @@ export class AppComponent {
   @ViewChild("imagen") imagen: ElementRef;
   public imgUrl: SafeUrl;
   public showImg:boolean = false;
+  @ViewChild("credito") credito: ElementRef;
+  public creUrl: SafeUrl;
+  public credits: boolean = true;
   //////////////////////////*VIDEO*/
   @ViewChild("video") video: ElementRef;
   public videoUrl: SafeUrl;
@@ -51,7 +53,6 @@ export class AppComponent {
   @ViewChild("arrows") arrows:ElementRef;
   @ViewChild("ipBut") ipBut:ElementRef;
   public showArrow: boolean = true;
-  public credits: boolean = true;
 
   //////////////////////////////////////
   /*ESCENAS*/
@@ -68,8 +69,7 @@ export class AppComponent {
   public audioLoopListener: () => void;
   public videoLoopListener: () => void;
 
-  constructor(private sanitizer: DomSanitizer, private renderer: Renderer2, public t: ToolsService,
-    public device: DeviceService, public socket: SocketService){
+  constructor(private sanitizer: DomSanitizer, private renderer: Renderer2, public t: ToolsService, public socket: SocketService){
     /*-IMAGEN DEFAULT-*/
     this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('assets/none.png');  //Default Image
   }
@@ -89,7 +89,6 @@ export class AppComponent {
     function onDeviceReady() {
         window.powermanagement.acquire(); //WeakLock para que la pantalla no se bloquee
         setTimeout(function(){
-          _this.device.startWatchAcc(_this.stream, _this.imagen); //Cargar Acelerometro de Device
 
           let beaconRegion = new cordova.plugins.locationManager.BeaconRegion(_this.identifier, _this.uuid);
     	    let delegate = new cordova.plugins.locationManager.Delegate();
@@ -365,8 +364,6 @@ export class AppComponent {
     this.makeVideo("/none.mp4");
     //Cam
     this.createStream();
-    //Audio
-    this.loopAudio(0, '/e3audio2.mp3');
     //Texto
     this.textoContenido = "";
   }
@@ -384,15 +381,7 @@ export class AppComponent {
     //Cam
     this.createStream();
     //Audio
-    this.loopAudio(99999, '/e4audio'+this.t.getRandom(1, 5)+'.mp3');
-    this.audioLoop = setTimeout(function(){if(this_.nEscena == 4){this_.loopAudio(99999, '/e4audio'+this_.t.getRandom(5, 9)+'.mp3');}}, 60000);
-    this.audioLoop = setTimeout(function(){
-      if(this_.t.getRandom(1, 10) < 2){
-        this_.loopAudio(99999, '/none.mp3');
-      }
-    }, 165000);
-    this.audioLoop = setTimeout(function(){if(this_.nEscena == 4){this_.loopAudio(99999, '/e4audio13.mp3');}}, 240000);
-    this.audioLoop = setTimeout(function(){if(this_.nEscena == 4){this_.loopAudio(99999, '/e4audio'+this_.t.getRandom(9, 13)+'.mp3');}}, 360000);
+    this.loopAudio(99999999, '/e4audio1.mp3');
     //Texto
     this.textoContenido = "";
   }
@@ -407,8 +396,7 @@ export class AppComponent {
     this.showImg = true;
     this.credits = true;
     clearTimeout(this.audioLoop);
-    //Cam
-    //this.createStream();
+
     this.showVideo = false;
     this.loopAudio(0, '/none.mp3');
     this.makeVideo("/e5video1.mp4");
@@ -429,7 +417,7 @@ export class AppComponent {
     //Cam
     this.createStream();
     //Audio
-    this.loopAudio(99, '/e6audio'+this.t.getRandom(1, 4)+'.mp3');
+    this.loopAudio(9999999, '/e6audio1.mp3');
     //Texto
     this.textoContenido = "";
   }
@@ -450,9 +438,10 @@ export class AppComponent {
     this.loopAudio(99, '/e7audio'+this.t.getRandom(1, 6)+'.mp3');
     this.audioLoop = setTimeout(function(){this_.loopAudio(0, '/none.mp3');}, 180000);
     setTimeout(function(){
-      this_.imgUrl = this_.sanitizer.bypassSecurityTrustUrl('/assets/none.png');
+      this_.imgUrl = this_.sanitizer.bypassSecurityTrustUrl('./assets/none.png');
+      this_.creUrl = this_.sanitizer.bypassSecurityTrustUrl('http://'+this.gUrl+'/creditos.jpg');
       this_.credits = false;
-    }, 60000*8.5);
+    }, 60000*8);
     //Texto
     this.textoContenido = "";
   }

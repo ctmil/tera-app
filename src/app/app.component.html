@@ -3,12 +3,13 @@ Streaming Object
 -->
 <div #stream id="stream" [style.background]="url" [style.background-size]="c" [hidden]="showStream">
 </div>
-<video #video id="stream" [src]="videoUrl" autoplay [hidden]="showVideo" webkit-playsinline playsinline></video>
+<video #video id="video" [src]="videoUrl" autoplay [hidden]="showVideo" webkit-playsinline playsinline></video>
 
 <!--
 Layers
 -->
 <img #imagen class="movImg" id="imagen" [src]="imgUrl" [hidden]="showImg">
+<img #credito class="movCre" id="credito" [src]="creUrl" [hidden]="credits">
 
 <audio #audio [src]="audioUrl" type="audio/mpeg"></audio>
 
@@ -29,27 +30,21 @@ Interface
   </div>
 </div>
 
-<p style="position:fixed;top:5px;left:20px;color:#fff;font-size:20px;" [hidden]="credits">
-  Créditos
-</p>
-
 <!--
 DEBUG Start
 -->
-<a #ipBut (click)="toggle=!toggle;" class="debugButton">IP</a>
+<a #ipBut (click)="toggle=!toggle;" class="debugButton">T</a>
 <!--div class="debug_set" *ngIf="toggle">
   <input #ip type="text" name="" [value]="ipCurrent">
   <input #port type="text" name="" [value]="portCurrent">
   <button (click)="changeIP();" type="button" name="button">OK</button>
 </div-->
 <div class="debugFooter" *ngIf="toggle">
-  <a (click)="escena1();toggle=!toggle;">1</a>
-  <a (click)="escena2();toggle=!toggle;">2</a>
-  <a (click)="escena3();toggle=!toggle;">3</a>
-  <a (click)="escena4();toggle=!toggle;">4</a>
-  <a (click)="escena5();toggle=!toggle;">5</a>
-  <a (click)="escena6();toggle=!toggle;">6</a>
-  <a (click)="escena7();toggle=!toggle;">7</a>
+  <a (click)="escena3();toggle=!toggle;">1</a>
+  <a (click)="escena4();toggle=!toggle;">2</a>
+  <a (click)="escena5();toggle=!toggle;">3</a>
+  <a (click)="escena6();toggle=!toggle;">4</a>
+  <a (click)="escena7();toggle=!toggle;">5</a>
 </div>
 <!--
 DEBUG End
