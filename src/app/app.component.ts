@@ -361,6 +361,7 @@ export class AppComponent {
     this.showImg = true;
     this.credits = true;
     clearTimeout(this.audioLoop);
+    this.loopAudio(0, '/none.mp3');
     this.makeVideo("/none.mp4");
     //Cam
     this.createStream();
@@ -381,7 +382,7 @@ export class AppComponent {
     //Cam
     this.createStream();
     //Audio
-    this.loopAudio(99999999, '/e4audio1.mp3');
+    this.loopAudio(99999999, '/e4audio'+this.t.getRandom(9, 14)+'.mp3');
     //Texto
     this.textoContenido = "";
   }
@@ -417,7 +418,7 @@ export class AppComponent {
     //Cam
     this.createStream();
     //Audio
-    this.loopAudio(9999999, '/e6audio1.mp3');
+    this.loopAudio(99999999, '/e6audio'+this.t.getRandom(1, 4)+'.mp3');
     //Texto
     this.textoContenido = "";
   }
@@ -435,7 +436,7 @@ export class AppComponent {
     //Imagen
     this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('http://'+this.gUrl+'/e7img1.jpg');
     //Audio
-    this.loopAudio(99, '/e7audio'+this.t.getRandom(1, 6)+'.mp3');
+    this.loopAudio(999999, '/e7audio'+this.t.getRandom(1, 6)+'.mp3');
     this.audioLoop = setTimeout(function(){this_.loopAudio(0, '/none.mp3');}, 180000);
     setTimeout(function(){
       this_.imgUrl = this_.sanitizer.bypassSecurityTrustUrl('./assets/none.png');
