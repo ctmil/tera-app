@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { ToolsService } from './tools.service';
 import { DeviceService } from './device.service';
 import { SocketService } from './socket.service';
 declare var WifiWizard:any;
@@ -44,11 +45,7 @@ export class AppComponent {
   public identifier:string = 'TeraBeacon';
   public beaconScene:any = [100, 100, 100, 100, 100, 100];
   public beaconState:string = 'YB';
-  ////////////////////////*WIFI*/
-  public wifi:any;
   ///////////////////////*SOCKET-IO*/
-  public socketMsg:any;
-  public pSocketMsg:any;
   public grupo:string = "grupo0";
   //////////////////////*CONTROL*/
   @ViewChild("arrows") arrows:ElementRef;
@@ -59,7 +56,6 @@ export class AppComponent {
   //////////////////////////////////////
   /*ESCENAS*/
   public nEscena:number = 0;
-  public idnum:string;
 
   ////////////////////////*DEBUG*/
   @ViewChild("ip") ip: ElementRef;
@@ -68,13 +64,12 @@ export class AppComponent {
   ///////////////////////////
   public index:number = 1;
   public gUrl:string = "192.168.0.125:80";
-  public ipCurrent:string = "192.168.0.125";
-  public portCurrent:string = "80";
   ///////////////////////////LISTENER//
   public audioLoopListener: () => void;
   public videoLoopListener: () => void;
 
-  constructor(private sanitizer: DomSanitizer, private renderer: Renderer2, public device: DeviceService, public socket: SocketService){
+  constructor(private sanitizer: DomSanitizer, private renderer: Renderer2, public t: ToolsService,
+    public device: DeviceService, public socket: SocketService){
     /*-IMAGEN DEFAULT-*/
     this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('assets/none.png');  //Default Image
   }
@@ -92,21 +87,15 @@ export class AppComponent {
     document.body.addEventListener('touchmove', function(e) {e.preventDefault();}, false);
 
     function onDeviceReady() {
-        //_this.loadIP();  //DEBUG
         window.powermanagement.acquire(); //WeakLock para que la pantalla no se bloquee
         setTimeout(function(){
-          _this.device.startWatchAcc(_this.stream, _this.video, _this.imagen); //Cargar Acelerometro de Device
+          _this.device.startWatchAcc(_this.stream, _this.imagen); //Cargar Acelerometro de Device
 
           let beaconRegion = new cordova.plugins.locationManager.BeaconRegion(_this.identifier, _this.uuid);
     	    let delegate = new cordova.plugins.locationManager.Delegate();
 
-          delegate.didDetermineStateForRegion = function (pluginResult) {
-            console.log("State:", pluginResult);
-          };
-
-          delegate.didStartMonitoringForRegion = function (pluginResult) {
-            console.log("Monitoring:", pluginResult);
-          };
+          delegate.didDetermineStateForRegion = function (pluginResult) {console.log("State:", pluginResult);};
+          delegate.didStartMonitoringForRegion = function (pluginResult) {console.log("Monitoring:", pluginResult);};
 
     	    delegate.didRangeBeaconsInRegion = function (pluginResult) {
               let dist = 100;
@@ -145,9 +134,7 @@ export class AppComponent {
     	    };
 
     	    cordova.plugins.locationManager.setDelegate(delegate);
-
           cordova.plugins.locationManager.requestWhenInUseAuthorization();
-
     	    cordova.plugins.locationManager.startRangingBeaconsInRegion(beaconRegion)
     	        .fail(function(e) {alert(e);_this.beaconState='NB';})
     	        .done();
@@ -162,19 +149,19 @@ export class AppComponent {
         if(wifi == "TERAVISION" || wifi == "TERAVISION2" || wifi == "TERAVISION3" || wifi == "TERAVISION4" ||
         wifi == "TERAVISION5G" || wifi == "TERAVISION_5G" || wifi == "TERAVISION2_5G" || wifi == "TERAVISION3_5G" ||
         wifi == "TERAVISION4_5G"){
-          console.log("Ok");
+          console.log("Wifi Ok");
         }else{
           alert("Tiene que estar conectado a la Red TERAVISION");
         }
       },
       function fail(a){
         alert("No está conectado a una Red");
-        console.log(a);
       });
-    }, 5000);
+    }, 10000);
     //END WifiWizard*/
     //////////////////////////////////////////////////////////////
 
+    this.escena0(); // Iniciar Escenas con la Escena Preparacion
     this.socket.getMessage("getid").subscribe(msg => {
       if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
         if(window.localStorage.getItem("iden")){
@@ -183,10 +170,10 @@ export class AppComponent {
           _this.socket.sendMessage("getid", "singrupo");
         }
       }else{
-        if(_this.getCookie('iden')){
-          _this.socket.sendMessage("getid", _this.getCookie('iden'));
+        if(_this.t.getCookie('iden')){
+          _this.socket.sendMessage("getid", _this.t.getCookie('iden'));
         }else{
-          _this.setCookie('iden','singrupo',2);
+          _this.t.setCookie('iden', 'singrupo', 2);
         }
       }
     });
@@ -195,13 +182,12 @@ export class AppComponent {
         window.localStorage.setItem("iden", JSON.stringify(msg));
         _this.socket.sendMessage("setid", "ok");
       }else{
-        _this.setCookie('iden', JSON.stringify(msg), 2);
+        _this.t.setCookie('iden', JSON.stringify(msg), 2);
         _this.socket.sendMessage("setid", "ok");
       }
       //_this.textoContenido += msg.grupo;
     });
     this.socket.getMessage("escena").subscribe(msg => {
-      console.log(msg);
       if(msg == "escena1"){
         _this.escena1();
       }else if(msg == "escena2"){
@@ -218,54 +204,13 @@ export class AppComponent {
         _this.escena7();
       }
     });
-    this.escena0(); // Iniciar Escenas con la Escena Preparacion
   }
 
   public ngDoCheck(): void{
-    if(this.socketMsg !== this.pSocketMsg){
-      //Actualizar solo cuando el valor de socketMsg sea nuevo
-      //Cambio de Escenas
-      if(this.socketMsg === "escena1"){this.escena1();}
-      if(this.socketMsg === "escena2"){this.escena2();}
-      if(this.socketMsg === "escena3"){this.escena3();}
-      if(this.socketMsg === "escena4"){this.escena4();}
-      if(this.socketMsg === "escena5"){this.escena5();}
-      if(this.socketMsg === "escena6"){this.escena6();}
-      if(this.socketMsg === "escena7"){this.escena7();}
-      //Grupo
-      if(this.socketMsg === "group1"){this.grupo="grupo1";}
-      if(this.socketMsg === "group2"){this.grupo="grupo2";}
-      if(this.socketMsg === "group3"){this.grupo="grupo3";}
-      if(this.socketMsg === "group4"){this.grupo="grupo4";}
-      if(this.socketMsg === "group5"){this.grupo="grupo5";}
-      if(this.socketMsg === "group6"){this.grupo="grupo6";}
-    }
     //Enviar mensaje de Status
     this.socket.sendMessage("status",""+this.grupo+","+this.nEscena+","+this.beaconState+","+
     this.beaconScene[0]+","+this.beaconScene[1]+","+this.beaconScene[2]+","+
     this.beaconScene[3]+","+this.beaconScene[4]+","+this.beaconScene[5]);
-    this.pSocketMsg = this.socketMsg; //Guardar dato anterior de SocketIO
-  }
-
-  /* Funciones Cookie */
-  public setCookie(name,value,days): void {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-  }
-  public getCookie(name): any {
-      var nameEQ = name + "=";
-      var ca = document.cookie.split(';');
-      for(var i=0;i < ca.length;i++) {
-          var c = ca[i];
-          while (c.charAt(0)==' ') c = c.substring(1,c.length);
-          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-      }
-      return null;
   }
 
   /*Funciones Tera*/
@@ -330,33 +275,6 @@ export class AppComponent {
     });
   }
 
-  public getRandom(min, max): number {
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
-  //DEBUG//
-  public changeIP(): void{
-    this.ipCurrent = this.ip.nativeElement.value;
-    this.portCurrent = this.port.nativeElement.value;
-    this.gUrl = this.ipCurrent+":"+this.portCurrent;
-    this.toggle = false;
-
-    this.createStream();
-
-    window.localStorage.setItem("ip", this.ipCurrent); //Save IP
-    window.localStorage.setItem("port", this.portCurrent); //Save Port
-  }
-  public loadIP(): void{
-    if(window.localStorage){
-      this.gUrl = window.localStorage.getItem("ip")+window.localStorage.getItem("port"); //Get Last IP
-    }else{
-      this.gUrl = "192.168.0.102:80";
-    }
-    this.ipCurrent = window.localStorage.getItem("ip").replace(/:.*$/,"");
-    this.portCurrent = window.localStorage.getItem("port");
-
-    this.createStream();
-  }//*/
   //////////////////////////////////////////////////////////////////////////////
 
   public switchStream(n:number): void{
@@ -398,6 +316,7 @@ export class AppComponent {
     this.showStream = true;
     this.showVideo = true;
     this.showImg = true;
+    this.credits = true;
     //Texto
     this.textoContenido = "TeraVision";
   }
@@ -411,6 +330,7 @@ export class AppComponent {
     this.showStream = true;
     this.showVideo = false;
     this.showImg = true;
+    this.credits = true;
     this.loopAudio(0, '/none.mp3');
     this.makeVideo("/e1video1.mp4");
     //Texto
@@ -422,6 +342,7 @@ export class AppComponent {
     this.showArrow = true;
     this.showVideo = true;
     this.showImg = true;
+    this.credits = true;
     clearTimeout(this.audioLoop);
     this.makeVideo("/none.mp4");
     //Cam
@@ -439,6 +360,7 @@ export class AppComponent {
     this.showArrow = true;
     this.showVideo = true;
     this.showImg = true;
+    this.credits = true;
     clearTimeout(this.audioLoop);
     this.makeVideo("/none.mp4");
     //Cam
@@ -456,20 +378,21 @@ export class AppComponent {
     this.showArrow = false;
     this.showVideo = true;
     this.showImg = true;
+    this.credits = true;
     clearTimeout(this.audioLoop);
     this.makeVideo("/none.mp4");
     //Cam
     this.createStream();
     //Audio
-    this.loopAudio(9999, '/e4audio'+this.getRandom(1, 5)+'.mp3');
-    this.audioLoop = setTimeout(function(){if(this_.nEscena == 4){this_.loopAudio(9999, '/e4audio'+this_.getRandom(5, 9)+'.mp3');}}, 60000);
+    this.loopAudio(99999, '/e4audio'+this.t.getRandom(1, 5)+'.mp3');
+    this.audioLoop = setTimeout(function(){if(this_.nEscena == 4){this_.loopAudio(99999, '/e4audio'+this_.t.getRandom(5, 9)+'.mp3');}}, 60000);
     this.audioLoop = setTimeout(function(){
-      if(this_.getRandom(1, 10) < 2){
-        this_.loopAudio(9999, '/none.mp3');
+      if(this_.t.getRandom(1, 10) < 2){
+        this_.loopAudio(99999, '/none.mp3');
       }
     }, 165000);
-    this.audioLoop = setTimeout(function(){if(this_.nEscena == 4){this_.loopAudio(9999, '/e4audio13.mp3');}}, 240000);
-    this.audioLoop = setTimeout(function(){if(this_.nEscena == 4){this_.loopAudio(9999, '/e4audio'+this_.getRandom(9, 13)+'.mp3');}}, 360000);
+    this.audioLoop = setTimeout(function(){if(this_.nEscena == 4){this_.loopAudio(99999, '/e4audio13.mp3');}}, 240000);
+    this.audioLoop = setTimeout(function(){if(this_.nEscena == 4){this_.loopAudio(99999, '/e4audio'+this_.t.getRandom(9, 13)+'.mp3');}}, 360000);
     //Texto
     this.textoContenido = "";
   }
@@ -482,6 +405,7 @@ export class AppComponent {
     this.showStream = true;
     this.showVideo = false;
     this.showImg = true;
+    this.credits = true;
     clearTimeout(this.audioLoop);
     //Cam
     //this.createStream();
@@ -499,12 +423,13 @@ export class AppComponent {
     this.showArrow = false;
     this.showVideo = true;
     this.showImg = true;
+    this.credits = true;
     clearTimeout(this.audioLoop);
     this.makeVideo("/none.mp4");
     //Cam
     this.createStream();
     //Audio
-    this.loopAudio(99, '/e6audio'+this.getRandom(1, 4)+'.mp3');
+    this.loopAudio(99, '/e6audio'+this.t.getRandom(1, 4)+'.mp3');
     //Texto
     this.textoContenido = "";
   }
@@ -522,7 +447,7 @@ export class AppComponent {
     //Imagen
     this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('http://'+this.gUrl+'/e7img1.jpg');
     //Audio
-    this.loopAudio(99, '/e7audio'+this.getRandom(1, 6)+'.mp3');
+    this.loopAudio(99, '/e7audio'+this.t.getRandom(1, 6)+'.mp3');
     this.audioLoop = setTimeout(function(){this_.loopAudio(0, '/none.mp3');}, 180000);
     setTimeout(function(){
       this_.imgUrl = this_.sanitizer.bypassSecurityTrustUrl('/assets/none.png');
