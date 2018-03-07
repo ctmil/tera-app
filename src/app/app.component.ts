@@ -54,6 +54,7 @@ export class AppComponent {
   @ViewChild("arrows") arrows:ElementRef;
   @ViewChild("ipBut") ipBut:ElementRef;
   public showArrow: boolean = true;
+  public credits: boolean = true;
 
   //////////////////////////////////////
   /*ESCENAS*/
@@ -86,6 +87,9 @@ export class AppComponent {
     function onLoad() {
         document.addEventListener("deviceready", onDeviceReady, false);
     }
+
+    document.addEventListener('touchmove', function(e) {e.preventDefault();}, false);
+    document.body.addEventListener('touchmove', function(e) {e.preventDefault();}, false);
 
     function onDeviceReady() {
         //_this.loadIP();  //DEBUG
@@ -154,15 +158,10 @@ export class AppComponent {
     setInterval(function(){
       WifiWizard.getCurrentSSID(
       function success(a) {
-        console.log(a);
         let wifi = a.replace(/["']/g, "");
-        if(wifi == "TERAVISION"){
-          console.log("Ok");
-        }else if(wifi == "TERAVISION2"){
-          console.log("Ok");
-        }else if(wifi == "TERAVISION3"){
-          console.log("Ok");
-        }else if(wifi == "TERAVISION4"){
+        if(wifi == "TERAVISION" || wifi == "TERAVISION2" || wifi == "TERAVISION3" || wifi == "TERAVISION4" ||
+        wifi == "TERAVISION5G" || wifi == "TERAVISION_5G" || wifi == "TERAVISION2_5G" || wifi == "TERAVISION3_5G" ||
+        wifi == "TERAVISION4_5G"){
           console.log("Ok");
         }else{
           alert("Tiene que estar conectado a la Red TERAVISION");
@@ -177,7 +176,7 @@ export class AppComponent {
     //////////////////////////////////////////////////////////////
 
     this.socket.getMessage("getid").subscribe(msg => {
-      if(window.localStorage){
+      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
         if(window.localStorage.getItem("iden")){
           _this.socket.sendMessage("getid", window.localStorage.getItem("iden"));
         }else{
@@ -192,13 +191,17 @@ export class AppComponent {
       }
     });
     this.socket.getMessage("setid").subscribe(msg => {
-      if(window.localStorage){
+      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
         window.localStorage.setItem("iden", JSON.stringify(msg));
+        _this.socket.sendMessage("setid", "ok");
       }else{
-        _this.setCookie('iden',JSON.stringify(msg),2);
+        _this.setCookie('iden', JSON.stringify(msg), 2);
+        _this.socket.sendMessage("setid", "ok");
       }
+      //_this.textoContenido += msg.grupo;
     });
     this.socket.getMessage("escena").subscribe(msg => {
+      console.log(msg);
       if(msg == "escena1"){
         _this.escena1();
       }else if(msg == "escena2"){
@@ -424,7 +427,7 @@ export class AppComponent {
     //Cam
     this.createStream();
     //Audio
-    this.loopAudio(0, '/e2audio1.mp3');
+    this.loopAudio(99999, '/e2audio1.mp3');
     //Texto
     this.textoContenido = "";
   }
@@ -521,7 +524,10 @@ export class AppComponent {
     //Audio
     this.loopAudio(99, '/e7audio'+this.getRandom(1, 6)+'.mp3');
     this.audioLoop = setTimeout(function(){this_.loopAudio(0, '/none.mp3');}, 180000);
-    setTimeout(function(){this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('/assets/none.png');}, 60000*8.5);
+    setTimeout(function(){
+      this_.imgUrl = this_.sanitizer.bypassSecurityTrustUrl('/assets/none.png');
+      this_.credits = false;
+    }, 60000*8.5);
     //Texto
     this.textoContenido = "";
   }

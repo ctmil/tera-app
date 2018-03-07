@@ -29,6 +29,10 @@ Interface
   </div>
 </div>
 
+<p style="position:fixed;top:5px;left:20px;color:#fff;font-size:20px;" [hidden]="credits">
+  Créditos
+</p>
+
 <!--
 DEBUG Start
 -->
@@ -39,13 +43,13 @@ DEBUG Start
   <button (click)="changeIP();" type="button" name="button">OK</button>
 </div-->
 <div class="debugFooter" *ngIf="toggle">
-  <a (click)="escena1();">1</a>
-  <a (click)="escena2();">2</a>
-  <a (click)="escena3();">3</a>
-  <a (click)="escena4();">4</a>
-  <a (click)="escena5();">5</a>
-  <a (click)="escena6();">6</a>
-  <a (click)="escena7();">7</a>
+  <a (click)="escena1();toggle=!toggle;">1</a>
+  <a (click)="escena2();toggle=!toggle;">2</a>
+  <a (click)="escena3();toggle=!toggle;">3</a>
+  <a (click)="escena4();toggle=!toggle;">4</a>
+  <a (click)="escena5();toggle=!toggle;">5</a>
+  <a (click)="escena6();toggle=!toggle;">6</a>
+  <a (click)="escena7();toggle=!toggle;">7</a>
 </div>
 <!--
 DEBUG End
