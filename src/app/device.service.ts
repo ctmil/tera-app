@@ -34,32 +34,6 @@ export class DeviceService {
     },
     options); //Watch de la Aceleración
 
-    if(/iphone|ipod|ipad/.test( window.navigator.userAgent.toLowerCase() )){
-      window.ondevicemotion = function(event) {
-        var accX = event.accelerationIncludingGravity.x;
-      	var accY = event.accelerationIncludingGravity.y;
-      	var accZ = event.accelerationIncludingGravity.z;
-        //Calculo rápido para Rotación
-        let roll = Math.atan2(accY, accZ) * 180/Math.PI;
-
-        //Compensación de Posicion
-        //s.nativeElement.style.top = -120+(Math.abs(acc.x)*12)+"%";
-        //v.nativeElement.style.top = -120+(Math.abs(acc.x)*12)+"%";
-        if(accZ < 0){
-          i.nativeElement.style.top = -150+(Math.abs(accZ)*15)+"%";
-        }else{
-          i.nativeElement.style.top = "-150%";
-        }
-
-        if(accX > 7 && accZ > 0){
-          //s.nativeElement.style.left = String( (-1*roll/4) - 10 )+"%";
-          i.nativeElement.style.left = String( (-1*roll/4) - 10 )+"%";
-        }else{
-          //s.nativeElement.style.left = "-10%";
-          i.nativeElement.style.left = "-50%";
-        }
-      }
-    }
   }
   /*-- END Accelerometer --*/
 }
