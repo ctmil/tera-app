@@ -32,14 +32,14 @@ export class AppComponent {
   //////////////////////////*IMAGEN*/
   @ViewChild("imagen") imagen: ElementRef;
   public imgUrl: SafeUrl;
-  public showImg:boolean = false;
+  public showImg:boolean = true;
   @ViewChild("credito") credito: ElementRef;
   public creUrl: SafeUrl;
   public credits: boolean = true;
   //////////////////////////*VIDEO*/
   @ViewChild("video") video: ElementRef;
   public videoUrl: SafeUrl;
-  public showVideo: boolean = false;
+  public showVideo: boolean = true;
   /////////////////////////*TEXTO*/
   public textoContenido:string = '';
   public showText:boolean = false;
@@ -79,7 +79,6 @@ export class AppComponent {
   public ngOnInit(): void{
     //Iniciar Dispositivo//
     let _this = this;
-    this.d.startWatchAcc(this.imagen);  //Accelerometro
     onLoad();
 
     function onLoad() {
@@ -91,8 +90,9 @@ export class AppComponent {
 
     function onDeviceReady() {
         window.powermanagement.acquire(); //WeakLock para que la pantalla no se bloquee
-        setTimeout(function(){
 
+        setTimeout(function(){
+          _this.d.startWatchAcc(this.imagen);  //Accelerometro
           let beaconRegion = new cordova.plugins.locationManager.BeaconRegion(_this.identifier, _this.uuid);
     	    let delegate = new cordova.plugins.locationManager.Delegate();
 
@@ -164,6 +164,7 @@ export class AppComponent {
     //////////////////////////////////////////////////////////////
 
     this.escena0(); // Iniciar Escenas con la Escena Preparacion
+
     this.socket.getMessage("getid").subscribe(msg => {
       if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
         if(window.localStorage.getItem("iden")){
@@ -327,6 +328,7 @@ export class AppComponent {
 
   public escena0(): void{
     this.nEscena = 0;
+    this.showArrow = true;
     this.showStream = true;
     this.showVideo = true;
     this.showImg = true;
