@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { ToolsService } from './tools.service';
+import { DeviceService } from './device.service';
 import { SocketService } from './socket.service';
 declare var WifiWizard:any;
 declare var navigator:any;
@@ -69,7 +70,8 @@ export class AppComponent {
   public audioLoopListener: () => void;
   public videoLoopListener: () => void;
 
-  constructor(private sanitizer: DomSanitizer, private renderer: Renderer2, public t: ToolsService, public socket: SocketService){
+  constructor(private sanitizer: DomSanitizer, private renderer: Renderer2, public t: ToolsService,
+    public d: DeviceService, public socket: SocketService){
     /*-IMAGEN DEFAULT-*/
     this.imgUrl = this.sanitizer.bypassSecurityTrustUrl('assets/none.png');  //Default Image
   }
@@ -77,6 +79,7 @@ export class AppComponent {
   public ngOnInit(): void{
     //Iniciar Dispositivo//
     let _this = this;
+    this.d.startWatchAcc(this.imagen);  //Accelerometro
     onLoad();
 
     function onLoad() {
@@ -307,9 +310,7 @@ export class AppComponent {
         this.showVideo = true;
       }
     }else if(this.nEscena == 6){
-      if(this.index == 3){
-        this.index = 2;
-      }
+      this.index = 1;
     }else if(this.nEscena == 7){
       this.index = 1;
     }
@@ -422,7 +423,7 @@ export class AppComponent {
     let this_ = this;
     this.nEscena = 6;
     this.index = 1;
-    this.showArrow = false;
+    this.showArrow = true;
     this.showVideo = true;
     this.showImg = true;
     this.credits = true;

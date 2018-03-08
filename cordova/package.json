@@ -14,6 +14,7 @@
     "com.unarin.cordova.beacon": "git+https://github.com/petermetz/cordova-plugin-ibeacon.git",
     "cordova-android": "^6.4.0",
     "cordova-browser": "^4.1.0",
+    "cordova-plugin-device-motion": "^1.2.5",
     "cordova-plugin-powermanagement": "^1.0.5",
     "cordova-plugin-powermanagement-orig": "git+https://github.com/Viras-/cordova-plugin-powermanagement.git",
     "cordova-plugin-splashscreen": "^1.0.0",
@@ -25,7 +26,8 @@
       "cordova-plugin-whitelist": {},
       "cordova-plugin-powermanagement": {},
       "com.pylonproducts.wifiwizard": {},
-      "com.unarin.cordova.beacon": {}
+      "com.unarin.cordova.beacon": {},
+      "cordova-plugin-device-motion": {}
     },
     "platforms": [
       "browser",

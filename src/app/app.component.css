@@ -166,7 +166,7 @@
   animation-fill-mode:forwards;
 }
 .movImg{
-  animation:sin 45s;
+  animation:sin 80s;
   animation-iteration-count: infinite;
 }
 .movCre{
@@ -189,10 +189,11 @@
   to {right: -100px; }
 }
 @keyframes sin {
-  0% {left:-25%;top:-25%;}
-  25% {left:-50%;top:-50%;}
-  50% {left:0%;top:-50%;}
-  100% {left:-25%;top:-25%;}
+  0% {left:-25%;transform: scale(1);}
+  25% {left:-50%;transform: scale(2);}
+  50% {left:0%;transform: scale(1);}
+  75% {transform: scale(2);}
+  100% {left:-25%;transform: scale(1);}
 }
 @keyframes scroll {
   from {top:0%;}
