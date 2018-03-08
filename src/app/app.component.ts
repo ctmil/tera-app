@@ -65,7 +65,7 @@ export class AppComponent {
   public toggle:boolean = false;
   ///////////////////////////
   public index:number = 1;
-  public gUrl:string = "192.168.0.125:80";
+  public gUrl:string = "192.168.0.108:80";
   ///////////////////////////LISTENER//
   public audioLoopListener: () => void;
   public videoLoopListener: () => void;
@@ -305,6 +305,7 @@ export class AppComponent {
         this.showStream = true;
         this.showVideo = false;
       }else{
+        this.makeVideo("/none.mp4");
         this.createStream();
         this.showStream = false;
         this.showVideo = true;
