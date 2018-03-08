@@ -294,7 +294,18 @@ export class AppComponent {
     }else if(this.nEscena == 4){
 
     }else if(this.nEscena == 5){
-      this.index = 1;
+      if(this.index == 3){
+        this.index = 2;
+      }
+      if(this.index == 1){
+        this.makeVideo("/e5video1.mp4");
+        this.showStream = true;
+        this.showVideo = false;
+      }else{
+        this.createStream();
+        this.showStream = false;
+        this.showVideo = true;
+      }
     }else if(this.nEscena == 6){
       if(this.index == 3){
         this.index = 2;
@@ -303,7 +314,9 @@ export class AppComponent {
       this.index = 1;
     }
 
-    this.createStream();
+    if(this.nEscena != 5){
+        this.createStream();
+    }
   }
 
   //////////////////////////////////////////////////////////////
@@ -391,7 +404,7 @@ export class AppComponent {
     let this_ = this;
     this.nEscena = 5;
     this.index = 1;
-    this.showArrow = true;
+    this.showArrow = false;
     this.showStream = true;
     this.showVideo = false;
     this.showImg = true;
@@ -400,7 +413,7 @@ export class AppComponent {
 
     this.showVideo = false;
     this.loopAudio(0, '/none.mp3');
-    this.makeVideo("/e5video1.mp4");
+    if(this.index == 1){this.makeVideo("/e5video1.mp4");}
     //Texto
     this.textoContenido = "";
   }
