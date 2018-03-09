@@ -66,7 +66,7 @@ export class AppComponent {
   public showIP:boolean = true;
   ///////////////////////////
   public index:number = 1;
-  public gUrl:string = "192.168.0.108:80";
+  public gUrl:string = "192.168.0.125:80";
   ///////////////////////////LISTENER//
   public audioLoopListener: () => void;
   public videoLoopListener: () => void;
