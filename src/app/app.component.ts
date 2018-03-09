@@ -63,9 +63,10 @@ export class AppComponent {
   @ViewChild("ip") ip: ElementRef;
   @ViewChild("port") port: ElementRef;
   public toggle:boolean = false;
+  public showIP:boolean = true;
   ///////////////////////////
   public index:number = 1;
-  public gUrl:string = "192.168.0.125:80";
+  public gUrl:string = "192.168.0.108:80";
   ///////////////////////////LISTENER//
   public audioLoopListener: () => void;
   public videoLoopListener: () => void;
@@ -87,12 +88,40 @@ export class AppComponent {
 
     document.addEventListener('touchmove', function(e) {e.preventDefault();}, false);
     document.body.addEventListener('touchmove', function(e) {e.preventDefault();}, false);
+    window.ondevicemotion = function(e) {
+      let accX = e.accelerationIncludingGravity.x;
+      let accY = e.accelerationIncludingGravity.y;
+      let accZ = e.accelerationIncludingGravity.z;
+
+      //Calculo rápido para Rotación
+      let roll = Math.atan2(accY, accZ) * 180/Math.PI;
+
+      //Compensación de Posicion
+      if(_this.nEscena == 7){
+        if(accZ < 0){
+          _this.showImg = false;
+          _this.imagen.nativeElement.style.top = -150+(Math.abs(accZ)*15)+"%";
+          _this.showIP = false;
+        }else{
+          _this.showImg = true;
+          _this.imagen.nativeElement.style.top = "-2000%";
+          _this.showIP = true;
+        }
+      }
+
+      if(accX > 7 && accZ > 0){
+        _this.imagen.nativeElement.style.left = String( (-1*roll/4) - 10 )+"%";
+      }else{
+        _this.imagen.nativeElement.style.left = "-50%";
+      }
+
+    }
 
     function onDeviceReady() {
         window.powermanagement.acquire(); //WeakLock para que la pantalla no se bloquee
 
         setTimeout(function(){
-          _this.d.startWatchAcc(this.imagen);  //Accelerometro
+          _this.d.startWatchAcc(_this.imagen);  //Accelerometro
           let beaconRegion = new cordova.plugins.locationManager.BeaconRegion(_this.identifier, _this.uuid);
     	    let delegate = new cordova.plugins.locationManager.Delegate();
 

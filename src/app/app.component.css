@@ -14,7 +14,7 @@
   top:0%;
   left:0%;
   position:absolute;
-  box-shadow: inset 0 0 40px 40px #000;
+  box-shadow: inset 0 0 20px 20px #000;
 }
 #video{
   width:100%;
@@ -33,7 +33,7 @@
   top:-25%;
   left:-25%;
   position:absolute;
-  box-shadow: inset 0 0 40px 40px #000;
+  box-shadow: inset 0 0 20px 20px #000;
 }
 #credito{
   width:100%;
@@ -85,7 +85,7 @@
 .tera-text{
   color:#eee;
   position:absolute;
-  bottom:20%;
+  bottom:40%;
   left:0;
   width:100%;
   height:auto;
@@ -119,7 +119,7 @@
   bottom:0;
   left:0;
   width:100%;
-  height:50px;
+  height:120px;
   background: #eee;
   opacity:0.7;
   margin:0;
@@ -134,7 +134,7 @@
   height:100%;
   float:left;
   text-decoration: none;
-  font-size: 30px;
+  font-size: 36px;
   color:#000;
 }
 .debugFooter a:active{
@@ -144,8 +144,8 @@
   display:block;
   border-radius:50%;
   position:absolute;
-  top:55px;right:15px;
-  width:70px;height:65px;
+  top:15px;right:15px;
+  width:70px;height:70px;
   background:#ddd;
   text-decoration:none;
   text-align:center;
@@ -189,11 +189,11 @@
   to {right: -100px; }
 }
 @keyframes sin {
-  0% {left:-25%;transform: scale(1);}
-  25% {left:-50%;transform: scale(1.5);}
-  50% {left:0%;transform: scale(2);}
-  75% {transform: scale(1.5);}
-  100% {left:-25%;transform: scale(1);}
+  0% {left:-25%;transform:scale(1);}
+  25% {left:-50%;transform:scale(1.5);}
+  50% {left:0%;transform:scale(3);}
+  75% {left:-50%;transform:scale(2.2);}
+  100% {left:-25%;transform:scale(1);}
 }
 @keyframes scroll {
   from {top:0%;}

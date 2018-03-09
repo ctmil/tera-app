@@ -33,12 +33,7 @@ Interface
 <!--
 DEBUG Start
 -->
-<a #ipBut (click)="toggle=!toggle;" class="debugButton">T</a>
-<!--div class="debug_set" *ngIf="toggle">
-  <input #ip type="text" name="" [value]="ipCurrent">
-  <input #port type="text" name="" [value]="portCurrent">
-  <button (click)="changeIP();" type="button" name="button">OK</button>
-</div-->
+<a #ipBut (click)="toggle=!toggle;" class="debugButton" *ngIf="showIP">T</a>
 <div class="debugFooter" *ngIf="toggle">
   <a (click)="escena3();toggle=!toggle;">1</a>
   <a (click)="escena4();toggle=!toggle;">2</a>
