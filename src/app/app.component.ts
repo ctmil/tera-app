@@ -93,35 +93,25 @@ export class AppComponent {
       let accY = e.accelerationIncludingGravity.y;
       let accZ = e.accelerationIncludingGravity.z;
 
-      //Calculo rápido para Rotación
-      let roll = Math.atan2(accY, accZ) * 180/Math.PI;
-
       //Compensación de Posicion
       accZ = Math.floor(Math.floor(10*accZ)*0.1);
       if(_this.nEscena == 7){
-        //if(accZ < 0){
-        var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+        let iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
         if (iOS) {
           _this.showImg = false;
           _this.imagen.nativeElement.style.top = -(Math.abs(10-accZ)*15)+"%";
         } else {
+          if(accZ < 0){
           _this.showImg = false;
-          _this.imagen.nativeElement.style.top = -150+(Math.abs(accZ)*15)+"%";          
+          _this.imagen.nativeElement.style.top = -150+(Math.abs(accZ)*15)+"%";
+          _this.showIP = false;
+          }else{
+            _this.showImg = true;
+            _this.imagen.nativeElement.style.top = "-2000%";
+            _this.showIP = true;
+          }
         }
-          //_this.showIP = false;
-        /*}else{
-          _this.showImg = true;
-          _this.imagen.nativeElement.style.top = "-2000%";
-          _this.showIP = true;
-        }*/
       }
-/*
-      if(accX > 7 && accZ > 0){
-        _this.imagen.nativeElement.style.left = String( (-1*roll/4) - 10 )+"%";
-      }else{
-        _this.imagen.nativeElement.style.left = "-50%";
-      }
-*/
     }
 
     function onDeviceReady() {
