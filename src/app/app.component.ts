@@ -106,7 +106,7 @@ export class AppComponent {
           _this.imagen.nativeElement.style.top = -(Math.abs(10-accZ)*15)+"%";
         } else {
           _this.showImg = false;
-          _this.imagen.nativeElement.style.top = -150+(Math.abs(accZ)*15)+"%";          
+          _this.imagen.nativeElement.style.top = -150+(Math.abs(accZ)*15)+"%";
         }
           //_this.showIP = false;
         /*}else{
